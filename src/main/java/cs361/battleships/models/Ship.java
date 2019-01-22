@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Ship {
 
+	int shipLen;
+	String shipType;
+
 	@JsonProperty private List<Square> occupiedSquares;
 
 	public Ship() {
@@ -14,7 +17,15 @@ public class Ship {
 	}
 	
 	public Ship(String kind) {
-		//TODO implement
+		//takes string input kind, assigns corresponding shipLen value.
+		shipType = kind;
+		if (shipType == "Minesweeper"){
+			shipLen = 2;
+		} else if (shipType == "Destroyer") {
+			shipLen = 3;
+		} else if (shipType == "Battleship") {
+			shipLen = 4;
+		}
 	}
 
 	public List<Square> getOccupiedSquares() {
