@@ -19,6 +19,6 @@ public class Ship {
 
 	public List<Square> getOccupiedSquares() {
 		//TODO implement
-		return null;
+		return occupiedSquares;
 	}
 }
