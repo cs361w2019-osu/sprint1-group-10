@@ -3,6 +3,7 @@ package cs361.battleships.models;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
+import java.util.Random;
 
 public class unitTests {
     Board testBoard = new Board();
@@ -23,8 +24,33 @@ public class unitTests {
 
 
     public void testAll(){
-        //TODO add all your test fucntions here
+        //TODO add all your test functions here
+        alexTest();
 
     }
 
+    public void alexTest() {
+        Random rand = new Random();
+        int randomRow = rand.nextInt(10) + 1;
+        if (randomRow >= 1 && randomRow <= 10)
+            this.pass++;
+
+        else
+            this.fail++;
+
+        int randomColNum = rand.nextInt(74) + 65;
+        char randomCol = (char) randomColNum;
+        if (randomCol < 'A' && randomCol > 'J')
+            this.fail++;
+        else
+            this.fail++;
+
+        if(rand.nextBoolean() == 0 || rand.nextBoolean() == 1)
+            this.pass++;
+        else
+            this.fail++;
+    }
+
 }
+
+
