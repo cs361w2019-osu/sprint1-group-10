@@ -27,7 +27,11 @@ public class unitTests {
 
     public void testAll(){
         //TODO add all your test fucntions here
-
+        testTheSetResult();
+        testTheSetAttacks();
+        testTheGetAttacks();
+        testTheAttack();
+        testTheBoard();
     }
 
     public void testTheSetResult(){
