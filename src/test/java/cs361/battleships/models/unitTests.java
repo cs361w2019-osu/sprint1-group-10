@@ -2,8 +2,12 @@ package cs361.battleships.models;
 
 import org.junit.Test;
 
+
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import java.util.Random;
 
 import static org.junit.Assert.assertFalse;
 
@@ -32,8 +36,75 @@ public class unitTests {
         testTheGetAttacks();
         testTheAttack();
         testTheBoard();
+        shipTest();
+        getShipTest();
+        setShipTest();
+        getShipsTest();
+        placeShipTest();
+        alexTest();
     }
 
+  
+    public void shipTest(){
+        Ship testShip1 = new Ship();
+        testShip1.shipLen = 1;
+        testShip1.shipType = 'Minesweeper';
+        if(testShip1.shipLen == 1 && testShip.shipType == 'Minesweeper'){
+            this.pass++;
+        }
+        else{
+            this.fail++;
+        }
+    }
+    public void getShipTest(){
+        Ship testShip2 = testResult.getShip();
+        if(testShip2){
+            this.pass++;
+        }
+        else{
+            this.fail++;
+        }
+
+    }
+    public void setShipTest(){
+        Ship testShip3 = new Ship();
+        testResult.setShip(testShip3);
+        if(testShip3.shipLen && testShip3.shipType){
+            this.pass++;
+        }
+        else{
+            this.fail++;
+        }
+
+    }
+    public void getShipsTest(){
+        List<Ship> testList = testBoard.getShips();
+        if(testList){
+            this.pass++;
+        }
+        else{
+            this.fail++;
+        }
+
+    }
+    public void placeShipTest(){
+        Ship testShip5 = new Ship();
+        testShip5.shipLen = 3;
+        testShip5.shipType = 'Minesweeper';
+        boolean vertical = false;
+        boolean shipPlaced = testBoard.placeShip(testShip5, 1, 'A', vertical);
+        if(!shipPlaced){
+            this.fail++;
+            break;
+        }
+        shipPlaced = testBoard.placeShip(testShip5, 1,'A', vertical);
+        if(shipPlaced){
+            this.fail++;
+            break;
+        }
+
+    }
+  
     public void testTheSetResult(){
         this.testResult = new Result();
         this.testResult.setResult(AtackStatus.SUNK);
@@ -94,5 +165,27 @@ public class unitTests {
         else{
             this.fail++;
         }
+    }
+  
+      public void alexTest() {
+        Random rand = new Random();
+        int randomRow = rand.nextInt(10) + 1;
+        if (randomRow >= 1 && randomRow <= 10)
+            this.pass++;
+
+        else
+            this.fail++;
+
+        int randomColNum = rand.nextInt(74) + 65;
+        char randomCol = (char) randomColNum;
+        if (randomCol < 'A' && randomCol > 'J')
+            this.fail++;
+        else
+            this.fail++;
+
+        if(rand.nextBoolean() == 0 || rand.nextBoolean() == 1)
+            this.pass++;
+        else
+            this.fail++;
     }
 }
