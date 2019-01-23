@@ -188,4 +188,51 @@ public class unitTests {
         else
             this.fail++;
     }
+
+
+    //TODO
+    public void testsetLocation(){
+        this.testResult = new Result();
+        this.testResult.setLocation(square);
+        if(this.testResult.setLocation() == square)
+            this.pass++;
+        else
+            this.fail++;
+    }*/
+    public void testgetLocation(){
+        this.testResult = new Result();
+        this.testResult.setLocation(testSquare);
+        if(this.testResult.getLocation() == testSquare){
+            this.pass++;
+        }
+        else{
+            this.fail++;
+        }
+    }
+    public void testsetShip(){
+        this.testResult = new Result();
+        this.testResult.setShip(testShip);
+        if(this.testResult.setShip()==testship)
+            this.pass+
+        else
+            this.fail++
+    }
+    public void testgetResult(){
+        this.testResult = new Result();
+        this.testResult.setResult(Result);
+        if(this.testResult.getResult() == Result){
+            this.pass++;
+        }
+        else{
+            this.fail++;
+        }
+    }
+    public void testgetOccupiedSquares(){
+        this.testShip = new Ship();
+        this.testShip.getOccupiedSquares(testOccupiedSquares);
+        if(this.testShip.getOccupiedSquares() == testOccupiedSquares)
+            this.pass++
+        else
+            this.fail++
+    }
 }
