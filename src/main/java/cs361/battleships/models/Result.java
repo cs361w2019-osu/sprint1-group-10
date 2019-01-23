@@ -1,37 +1,39 @@
 package cs361.battleships.models;
 
+import controllers.AttackGameAction;
+
 public class Result {
-	private Ship ships;
-	private Square square;
-	private AttackStatus status;
+	private AtackStatus outcome;
+	private Ship target;
+	private Square targetLocation;
 
 	public AtackStatus getResult() {
 		//TODO implement
-		return status;
+		return outcome;
 	}
 
 	public void setResult(AtackStatus result) {
 		//TODO implement
-		this.status = result
+		outcome = result;
 	}
 
 	public Ship getShip() {
 		//TODO implement
-		return ships;
+		return target;
 	}
 
 	public void setShip(Ship ship) {
 		//TODO implement
-		this.ships=ship
+		target = ship;
 	}
 
 	public Square getLocation() {
 		//TODO implement
-		return square;
+		return targetLocation;
 	}
 
 	public void setLocation(Square square) {
 		//TODO implement
-		this.square=square
+		targetLocation = square;
 	}
 }

@@ -7,29 +7,36 @@ import java.util.List;
 
 public class Ship {
 
-	int shipLen;
-	String shipType;
-
 	@JsonProperty private List<Square> occupiedSquares;
+	@JsonProperty int shipLen;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
 	}
 	
 	public Ship(String kind) {
-		//takes string input kind, assigns corresponding shipLen value.
-		shipType = kind;
-		if (shipType == "Minesweeper"){
+		//TODO implement
+		if (kind == "Minesweeper"){
 			shipLen = 2;
-		} else if (shipType == "Destroyer") {
+		} else if (kind == "Destroyer") {
 			shipLen = 3;
-		} else if (shipType == "Battleship") {
+		} else if (kind == "Battleship") {
 			shipLen = 4;
 		}
 	}
+
+	public int getLen(){
+		return this.shipLen;
+	}
+
+	public void addOccupiedSquare(int x, char y){
+		this.occupiedSquares.add(new Square(x,y));
+	}
+
 
 	public List<Square> getOccupiedSquares() {
 		//TODO implement
 		return occupiedSquares;
 	}
+
 }
