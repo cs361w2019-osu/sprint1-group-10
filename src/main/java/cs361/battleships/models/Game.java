@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static cs361.battleships.models.AtackStatus.*;
 
@@ -21,10 +22,14 @@ public class Game {
             return false;
 
         boolean opponentPlacedSuccessfully;
+        //FIXME: Remove debug
+        System.out.println("Ai is playing:");
+        Ship aiship = new Ship();// The ai will end up placeing the same ship twice rather than a diffrent one.
+        aiship.setLen(ship.getLen());
         do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(aiship, randRow(), randCol(), randVertical());
         } while (!opponentPlacedSuccessfully);
 
         return true;
@@ -50,17 +55,26 @@ public class Game {
     }
 
     private char randCol() {
-        // TODO implement
-        return 'A';
+        // TODO implement | can generate lowercase x? when vertical
+        Random rand = new Random();
+        int randomColNum = rand.nextInt(74) + 65;
+        char randomCol = (char) randomColNum;
+
+        return randomCol;
     }
 
     private int randRow() {
         // TODO implement
-        return 0;
+        Random rand = new Random();
+        int randomRow = rand.nextInt(10) + 1;
+
+        return randomRow;
     }
 
     private boolean randVertical() {
         // TODO implement
-        return false;
+        Random rand = new Random();
+
+        return rand.nextBoolean();
     }
 }

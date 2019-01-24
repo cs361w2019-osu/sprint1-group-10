@@ -11,42 +11,44 @@ public class Ship {
 	@JsonProperty private int shipLen;
 
 	public Ship() {
-		occupiedSquares = new ArrayList<>();
+		this.occupiedSquares = new ArrayList<>();
 	}
 	
 	public Ship(String kind) {
-		occupiedSquares = new ArrayList<>();
+		this.occupiedSquares = new ArrayList<>();
 		//FIXME remove me
 		System.out.print("Making a ship of kind: ");
 		System.out.println(kind);
 		switch(kind) {
 			case "BATTLESHIP":
-				shipLen = 4;
+				this.shipLen = 4;
 				break;
 			case "DESTROYER":
-				shipLen = 3;
+				this.shipLen = 3;
 				break;
 			case "MINESWEEPER":
-				shipLen = 2;
+				this.shipLen = 2;
 				break;
 			default:
-				shipLen = 0;
+				this.shipLen = 0;
 				break;
 		}
 		System.out.println(shipLen);
 	}
 
 	public int getLen(){
-		return shipLen;
+		return this.shipLen;
 	}
 
+	public void setLen(int x){this.shipLen = x; return;}
+
 	public void addOccupiedSquare(int x, char y){
-		occupiedSquares.add(new Square(x,y));
+		this.occupiedSquares.add(new Square(x,y));
 	}
 
 
 	public List<Square> getOccupiedSquares() {
-		return occupiedSquares;
+		return this.occupiedSquares;
 	}
 
 }
