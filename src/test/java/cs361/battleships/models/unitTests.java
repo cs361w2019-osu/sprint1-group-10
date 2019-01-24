@@ -1,4 +1,4 @@
-package cs361.battleships.models;
+/*package cs361.battleships.models;
 
 import org.junit.Test;
 
@@ -199,6 +199,7 @@ public class unitTests {
         else
             this.fail++;
     }*/
+/*
     public void testgetLocation(){
         this.testResult = new Result();
         this.testResult.setLocation(testSquare);
@@ -236,3 +237,4 @@ public class unitTests {
             this.fail++
     }
 }
+*/

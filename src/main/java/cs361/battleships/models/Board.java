@@ -12,7 +12,8 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
-		// TODO Implement
+		//FIXME remove me
+		System.out.println("Hello!");
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
 	}
@@ -21,9 +22,12 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		// TODO Implement
+		// FIXME duplcate checking, overlap checking, and remvoe debug statement
+		System.out.print("Creating a ship with length: ");
+		System.out.println(ship.getLen());
 		if(updateShip(ship,x,y,isVertical)){// Try to update the ships location if it works add it
 			ships.add(ship);
+			System.out.println("Created a new ship");
 			return true;
 		}
 		else{// Otherwise error
@@ -42,15 +46,23 @@ public class Board {
 			}
 			for(int i=0;i<ship.getLen();i++){// Add each square to the ship object
 				ship.addOccupiedSquare(x,y);
+				//FIXME remove me
+				System.out.print("Added square: ");
+				System.out.print(x);
+				System.out.println(y);
 				x++;
 			}
 		}
 		else {
-			if(y+ship.getLen() > 'j'){// Check to make sure we aren't off the board
+			if(y+ship.getLen() > 'J'){// Check to make sure we aren't off the board
 				return false;
 			}
 			for(int i=0;i<ship.getLen();i++){// Add each square to the ship object
 				ship.addOccupiedSquare(x,y);
+				//FIXME remove me
+				System.out.print("Added square: ");
+				System.out.print(x);
+				System.out.println(y);
 				y++;
 			}
 
@@ -89,7 +101,7 @@ public class Board {
 			int totalHits = 0;
 			for(int i=0;i<this.ships.size();i++){// Go through each ship
 				List<Square> testMe = ships.get(i).getOccupiedSquares();
-				//TODO can be optmised by checking to see if a ship is sunk before doing square compair
+				//TODO can be optimised by checking to see if a ship is sunk before doing square compare
 				for(int j=0;j<attacks.size();j++){// Check to see if any of it's squares have been hit
 					for(int k=0;k<testMe.size();k++){// Check the list of a ships squares vs all the attacks made
 						if(testMe.get(k).getRow() == attacks.get(j).getLocation().getRow() && testMe.get(k).getColumn() == attacks.get(j).getLocation().getColumn()){
@@ -99,7 +111,18 @@ public class Board {
 				}
 				if(totalHits == this.ships.get(i).getLen()){
 					output.setResult(AtackStatus.SUNK);// Change to sunk
-					//TODO check to see if all ships are sunk
+					int numSunk = 1;
+					for(int f=0;f<attacks.size();f++){
+						if(attacks.get(f).getResult() == AtackStatus.SUNK){
+							numSunk++;
+						}
+					}
+					//If this hits 3 then all our ships are sunk and we return a SURRENDER event
+					if(numSunk == 3){// TODO: This needs to be changed if we add more ships
+						output.setResult(AtackStatus.SURRENDER);
+						attacks.add(output);
+						return output;
+					}
 				}
 				totalHits = 0;// Reset the # of hits
 			}
@@ -109,22 +132,18 @@ public class Board {
 	}
 
 	public List<Ship> getShips() {
-		//TODO implement
 		return ships;
 	}
 
 	public void setShips(List<Ship> inShips) {
-		//TODO implement
 		ships = inShips;
 	}
 
 	public List<Result> getAttacks() {
-		//TODO implement
 		return attacks;
 	}
 
 	public void setAttacks(List<Result> inAttacks) {
-		//TODO implement
 		attacks = inAttacks;
 	}
 }

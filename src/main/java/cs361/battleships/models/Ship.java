@@ -8,20 +8,25 @@ import java.util.List;
 public class Ship {
 
 	@JsonProperty private List<Square> occupiedSquares;
-	@JsonProperty int shipLen;
+	@JsonProperty private int shipLen;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
 	}
 	
 	public Ship(String kind) {
-		//TODO implement
-		if (kind == "Minesweeper"){
-			shipLen = 2;
-		} else if (kind == "Destroyer") {
-			shipLen = 3;
-		} else if (kind == "Battleship") {
-			shipLen = 4;
+		//FIXME remove me
+		System.out.print("Making a ship of kind: ");
+		System.out.println(kind);
+		if (kind == "MINESWEEPER"){
+			this.shipLen = 2;
+		} else if (kind == "DESTROYER") {
+			this.shipLen = 3;
+		} else if (kind == "BATTLESHIP") {
+			this.shipLen = 4;
+		}
+		else{
+			this.shipLen = 0;
 		}
 	}
 
@@ -35,7 +40,6 @@ public class Ship {
 
 
 	public List<Square> getOccupiedSquares() {
-		//TODO implement
 		return occupiedSquares;
 	}
 
