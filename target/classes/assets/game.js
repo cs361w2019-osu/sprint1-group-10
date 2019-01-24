@@ -32,6 +32,7 @@ function markHits(board, elementId, surrenderText) {
 }
 
 function redrawGrid() {
+    //FIXME: Remove debug
     console.log("Trying to redraw grid");
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
@@ -66,6 +67,7 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
+    //FIXME: Remove debug
     console.log(col);
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {

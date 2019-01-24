@@ -15,27 +15,33 @@ public class Ship {
 	}
 	
 	public Ship(String kind) {
+		occupiedSquares = new ArrayList<>();
 		//FIXME remove me
 		System.out.print("Making a ship of kind: ");
 		System.out.println(kind);
-		if (kind == "MINESWEEPER"){
-			this.shipLen = 2;
-		} else if (kind == "DESTROYER") {
-			this.shipLen = 3;
-		} else if (kind == "BATTLESHIP") {
-			this.shipLen = 4;
+		switch(kind) {
+			case "BATTLESHIP":
+				shipLen = 4;
+				break;
+			case "DESTROYER":
+				shipLen = 3;
+				break;
+			case "MINESWEEPER":
+				shipLen = 2;
+				break;
+			default:
+				shipLen = 0;
+				break;
 		}
-		else{
-			this.shipLen = 0;
-		}
+		System.out.println(shipLen);
 	}
 
 	public int getLen(){
-		return this.shipLen;
+		return shipLen;
 	}
 
 	public void addOccupiedSquare(int x, char y){
-		this.occupiedSquares.add(new Square(x,y));
+		occupiedSquares.add(new Square(x,y));
 	}
 
 
