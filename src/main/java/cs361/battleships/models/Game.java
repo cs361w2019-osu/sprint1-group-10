@@ -55,7 +55,7 @@ public class Game {
     }
 
     private char randCol() {
-        // TODO implement | can generate lowercase x? when vertical
+        // TODO can generate lowercase x? when vertical
         Random rand = new Random();
         int randomColNum = rand.nextInt(74) + 65;
         char randomCol = (char) randomColNum;
@@ -64,7 +64,6 @@ public class Game {
     }
 
     private int randRow() {
-        // TODO implement
         Random rand = new Random();
         int randomRow = rand.nextInt(10) + 1;
 
@@ -72,7 +71,6 @@ public class Game {
     }
 
     private boolean randVertical() {
-        // TODO implement
         Random rand = new Random();
 
         return rand.nextBoolean();

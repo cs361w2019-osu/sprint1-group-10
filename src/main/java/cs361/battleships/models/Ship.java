@@ -16,7 +16,7 @@ public class Ship {
 	
 	public Ship(String kind) {
 		this.occupiedSquares = new ArrayList<>();
-		//FIXME remove me
+		//FIXME remove debug
 		System.out.print("Making a ship of kind: ");
 		System.out.println(kind);
 		switch(kind) {

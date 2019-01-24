@@ -12,7 +12,7 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
-		//FIXME remove me
+		//FIXME remove debug
 		System.out.println("Hello!");
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
@@ -25,6 +25,11 @@ public class Board {
 		// FIXME duplcate checking, overlap checking, and remvoe debug statement
 		System.out.print("Creating a ship with length: ");
 		System.out.println(ship.getLen());
+		for(int i=0;i<this.ships.size();i++){
+			if(this.ships.get(i).getLen() == ship.getLen()){
+				return false;// Ship has already been placed
+			}
+		}
 		if(updateShip(ship,x,y,isVertical)){// Try to update the ships location if it works add it
 			ships.add(ship);
 			System.out.println("Created a new ship");
@@ -46,7 +51,7 @@ public class Board {
 			}
 			for(int i=0;i<ship.getLen();i++){// Add each square to the ship object
 				ship.addOccupiedSquare(x,y);
-				//FIXME remove me
+				//FIXME remove debug
 				System.out.print("Added square: ");
 				System.out.print(x);
 				System.out.println(y);
@@ -59,7 +64,7 @@ public class Board {
 			}
 			for(int i=0;i<ship.getLen();i++){// Add each square to the ship object
 				ship.addOccupiedSquare(x,y);
-				//FIXME remove me
+				//FIXME remove debug
 				System.out.print("Added square: ");
 				System.out.print(x);
 				System.out.println(y);
