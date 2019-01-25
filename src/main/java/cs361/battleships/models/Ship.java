@@ -51,4 +51,6 @@ public class Ship {
 		return this.occupiedSquares;
 	}
 
+	public void cleanOccupiedSquares(){ this.occupiedSquares = new ArrayList<>();}
+
 }

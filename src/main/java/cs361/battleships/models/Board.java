@@ -25,7 +25,7 @@ public class Board {
 		// FIXME duplcate checking, overlap checking, and remvoe debug statement
 		System.out.print("Creating a ship with length: ");
 		System.out.println(ship.getLen());
-		for(int i=0;i<this.ships.size();i++){
+		for(int i=0;i<this.ships.size();i++){// Dupe check
 			if(this.ships.get(i).getLen() == ship.getLen()){
 				return false;// Ship has already been placed
 			}
@@ -72,6 +72,18 @@ public class Board {
 			}
 
 		}
+		// Overlap check
+		for(int i=0;i<this.ships.size();i++){// Grab every ship
+			for(int j=0;i<this.ships.get(i).getOccupiedSquares().size();j++){// Grab all their squares
+				for(int k=0;k<ship.getOccupiedSquares().size();k++){// Grab all of our squares
+					// Compare
+					if(ship.getOccupiedSquares().get(k).getColumn() == this.ships.get(i).getOccupiedSquares().get(j).getColumn() && ship.getOccupiedSquares().get(k).getRow() == this.ships.get(i).getOccupiedSquares().get(j).getRow()){
+						ship.cleanOccupiedSquares();
+						return false;
+					}
+				}
+			}
+		}
 		return true;
 	}
 
@@ -80,7 +92,7 @@ public class Board {
 	 */
 	public Result attack(int x, char y) {
 		//TODO Implement
-
+		int totalHits = 0;
 		//Create a new result and initialise it to the default variables
 		Result output = new Result();
 		output.setLocation(new Square(x,y));
@@ -91,9 +103,9 @@ public class Board {
 			List<Square> testMe = ships.get(i).getOccupiedSquares();
 			for(int j=0;j<testMe.size();j++){// Check to see if any of it's squares have been hit
 				if(testMe.get(j).getColumn() == y && testMe.get(j).getRow() == x){//Hit!
-
 					output.setShip(this.ships.get(i));
 					output.setResult(AtackStatus.HIT);
+					totalHits++;// The reason we need this is that we only count previous hits so we need to include this one
 				}
 			}
 		}
@@ -103,7 +115,6 @@ public class Board {
 			output.setResult(AtackStatus.MISS);
 		}
 		else{//Check for sunk
-			int totalHits = 0;
 			for(int i=0;i<this.ships.size();i++){// Go through each ship
 				List<Square> testMe = ships.get(i).getOccupiedSquares();
 				//TODO can be optimised by checking to see if a ship is sunk before doing square compare
@@ -123,7 +134,7 @@ public class Board {
 						}
 					}
 					//If this hits 3 then all our ships are sunk and we return a SURRENDER event
-					if(numSunk == 3){// TODO: This needs to be changed if we add more ships
+					if(numSunk == 3){// FIXME: This needs to be changed if we add more ships
 						output.setResult(AtackStatus.SURRENDER);
 						attacks.add(output);
 						return output;
