@@ -24,7 +24,7 @@ function markHits(board, elementId, surrenderText) {
         else if (attack.result === "HIT")
             className = "hit";
         else if (attack.result === "SUNK")
-            className = "sink";
+            className = "hit"
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
@@ -32,8 +32,6 @@ function markHits(board, elementId, surrenderText) {
 }
 
 function redrawGrid() {
-    //FIXME: Remove debug
-    console.log("Trying to redraw grid");
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
     makeGrid(document.getElementById("opponent"), false);
@@ -67,12 +65,9 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
-    //FIXME: Remove debug
-    console.log(col);
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
-
             redrawGrid();
             placedShips++;
             if (placedShips == 3) {

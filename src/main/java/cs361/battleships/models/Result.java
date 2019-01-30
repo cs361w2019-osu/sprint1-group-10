@@ -1,33 +1,39 @@
 package cs361.battleships.models;
 
-import controllers.AttackGameAction;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Result {
-	private AtackStatus outcome;
-	private Ship target;
-	private Square targetLocation;
+
+	@JsonProperty private AtackStatus result;
+	@JsonProperty private Square location;
+	@JsonProperty private Ship ship;
+
+	@SuppressWarnings("unused")
+	public Result() {
+	}
+
+	public Result(Square location) {
+		result = AtackStatus.MISS;
+		this.location = location;
+	}
 
 	public AtackStatus getResult() {
-		return outcome;
+		return result;
 	}
 
 	public void setResult(AtackStatus result) {
-		outcome = result;
+		this.result = result;
 	}
 
 	public Ship getShip() {
-		return target;
+		return ship;
 	}
 
 	public void setShip(Ship ship) {
-		target = ship;
+		this.ship = ship;
 	}
 
 	public Square getLocation() {
-		return targetLocation;
-	}
-
-	public void setLocation(Square square) {
-		targetLocation = square;
+		return location;
 	}
 }

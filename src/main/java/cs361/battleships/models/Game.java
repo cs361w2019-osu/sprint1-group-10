@@ -22,14 +22,10 @@ public class Game {
             return false;
 
         boolean opponentPlacedSuccessfully;
-        //FIXME: Remove debug
-        System.out.println("Ai is playing:");
-        Ship aiship = new Ship();// The ai will end up placeing the same ship twice rather than a diffrent one.
-        aiship.setLen(ship.getLen());
         do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(aiship, randRow(), randCol(), randVertical());
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
         } while (!opponentPlacedSuccessfully);
 
         return true;
@@ -49,30 +45,21 @@ public class Game {
             // AI does random attacks, so it might attack the same spot twice
             // let it try until it gets it right
             opponentAttackResult = playersBoard.attack(randRow(), randCol());
-        } while(opponentAttackResult.getResult() != INVALID);
+        } while(opponentAttackResult.getResult() == INVALID);
 
         return true;
     }
 
     private char randCol() {
-        // TODO can generate lowercase x? when vertical
-        Random rand = new Random();
-        int randomColNum = rand.nextInt(74) + 65;
-        char randomCol = (char) randomColNum;
-
-        return randomCol;
+        int random = new Random().nextInt(10);
+        return (char) ('A' + random);
     }
 
     private int randRow() {
-        Random rand = new Random();
-        int randomRow = rand.nextInt(10) + 1;
-
-        return randomRow;
+        return  new Random().nextInt(10) + 1;
     }
 
     private boolean randVertical() {
-        Random rand = new Random();
-
-        return rand.nextBoolean();
+        return new Random().nextBoolean();
     }
 }
