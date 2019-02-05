@@ -16,24 +16,38 @@ function makeGrid(table, isPlayer) {
     }
 }
 
-function markHits(board, elementId, surrenderText) {
+function markHits(board, elementId, surrenderText, isPlayer) {
     board.attacks.forEach((attack) => {
         let className;
-        if (attack.result === "MISS")
+        if (attack.result === "MISS"){
+            if (isPlayer){// Only log if it's a players move
+                document.getElementById("gamelog").appendChild(document.createTextNode("~Miss\n"));// Log event in console
+            }
             className = "miss";
-        else if (attack.result === "HIT")
+        }
+        else if (attack.result === "HIT"){
+            if (isPlayer){// Only log if it's a players move
+                document.getElementById("gamelog").appendChild(document.createTextNode("~Hit\n"));// Log event in console
+            }
             className = "hit";
-        else if (attack.result === "SUNK")
-            className = "sink";
-        else if (attack.result === "SURRENDER")
-            alert(surrenderText);
+        }
+        else if (attack.result === "SUNK"){
+            if (isPlayer){// Only log if it's a players move
+                document.getElementById("gamelog").appendChild(document.createTextNode("~Sunk\n"));// Log event in console
+            }
+            className = "sunk";
+        }
+        else if (attack.result === "SURRENDER"){
+            if (isPlayer){// Only log if it's a players move
+                document.getElementById("gamelog").appendChild(document.createTextNode("~Surrender\n"));// Log event in console
+                document.getElementById("gamelog").appendChild(document.createTextNode(surrenderText));// Log event in console
+            }
+        }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
 }
 
 function redrawGrid() {
-    //FIXME: Remove debug
-    console.log("Trying to redraw grid");
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
     makeGrid(document.getElementById("opponent"), false);
@@ -45,8 +59,8 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
-    markHits(game.opponentsBoard, "opponent", "You won the game");
-    markHits(game.playersBoard, "player", "You lost the game");
+    markHits(game.opponentsBoard, "opponent", "~You won the game\n",true);
+    markHits(game.playersBoard, "player", "~You lost the game\n",false);
 }
 
 var oldListener;
@@ -67,12 +81,9 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
-    //FIXME: Remove debug
-    console.log(col);
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
-
             redrawGrid();
             placedShips++;
             if (placedShips == 3) {
@@ -92,7 +103,7 @@ function sendXhr(method, url, data, handler) {
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
-            alert("Cannot complete the action");
+            document.getElementById("gamelog").appendChild(document.createTextNode("~Cannot complete the action\n"));
             return;
         }
         handler(JSON.parse(req.responseText));
