@@ -1,6 +1,6 @@
 cs361/battleships/models/Ship.class
-conf/Module.class
 cs361/battleships/models/Result.class
+conf/Module.class
 conf/Routes.class
 controllers/AttackGameAction.class
 cs361/battleships/models/Board.class

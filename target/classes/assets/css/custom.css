@@ -39,3 +39,10 @@ td:hover {
 .miss {
     background-color: blue;
 }
+
+.gridBorder {
+    font_weight: bold;
+    margin-top: 4px;
+    margin-bottom: 4px;
+
+}
