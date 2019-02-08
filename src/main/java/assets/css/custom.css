@@ -1,6 +1,33 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
+body{
+    background-attachment: fixed;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("https://i.imgur.com/8b2GWQP.jpg");
 
+  }
+.box {
+
+    display: flex;
+  }
+
+.box > div {
+    background-color: #000000;
+    height:20px;
+    width: 20px;
+    margin: 5px;
+  }
+.title{
+  color:#ffffff;
+  text-align: center;
+  font-weight: 400;
+}
+li{
+    width:auto;
+  display:block;
+}
 .battleGrid {
     border: 1px solid black;
     border-spacing: 0px;
