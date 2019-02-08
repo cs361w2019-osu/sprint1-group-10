@@ -40,6 +40,91 @@ td:hover {
     background-color: blue;
 }
 
+.gridBorder {
+    font_weight: bold;
+    margin-top: 4px;
+    margin-bottom: 4px;
+
+}
+
+div.text1 {
+  position: absolute;
+  top: 35px;
+  left: -20px;
+}
+
+div.text2 {
+  position: absolute;
+  top: 65px;
+  left: -20px;
+}
+
+div.text3 {
+  position: absolute;
+  top: 95px;
+  left: -20px;
+}
+
+div.text4 {
+  position: absolute;
+  top: 125px;
+  left: -20px;
+}
+
+div.text5 {
+  position: absolute;
+  top: 155px;
+  left: -20px;
+}
+
+div.text6 {
+  position: absolute;
+  top: 185px;
+  left: -20px;
+}
+
+div.text7 {
+  position: absolute;
+  top: 215px;
+  left: -20px;
+}
+
+div.text8 {
+  position: absolute;
+  top: 245px;
+  left: -20px;
+}
+
+div.text9 {
+  position: absolute;
+  top: 275px;
+  left: -20px;
+}
+
+div.text10 {
+  position: absolute;
+  top: 305px;
+  left: -24px;
+}
+
+div.table1 {
+  position: absolute;
+  top: 75px;
+  left: 50px;
+}
+
+div.table2 {
+  position: absolute;
+  top: 75px;
+  left: 450px;
+}
+
+div.both {
+  position: absolute;
+  top: 75px;
+  left: 100px;
+}
+
 .logbox {
     height:100px;
     width:200px;
