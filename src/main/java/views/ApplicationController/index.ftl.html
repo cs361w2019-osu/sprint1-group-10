@@ -1,8 +1,8 @@
-<#import "../layout/defaultLayout.ftl.html" as layout>
-<@layout.myLayout "Home page">
+<#import "../layout/defaultLayout.ftl.html" as layout> 
+<@layout.myLayout "Home page">    
 
 
-<h1 class="title">The Battleship game</h1>
+<h1>The Battleship game</h1>
 
 
     <div class="table1">
@@ -42,26 +42,9 @@
 
 <ul>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-    <p>Ship Placement</p>
-    <li><button id="place_minesweeper">
-        <div class="box">
-          <div></div>
-          <div></div>
-        </div>
-    </button></li>
-    <li><button id="place_destroyer">
-            <div class="box">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div></button></li>
-    <li><button id="place_battleship">
-           <div class="box">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div></button></li>
+    <li><button id="place_minesweeper">Place Minesweeper</button></li>
+    <li><button id="place_destroyer">Place Destroyer</button></li>
+    <li><button id="place_battleship">Place Battleship</button></li>
     <li><input type="checkbox" id="is_vertical">Vertical</input></li>
 </ul>
 
