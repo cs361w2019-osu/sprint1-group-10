@@ -48,67 +48,67 @@ td:hover {
 }
 
 div.text1 {
-  position: absolute;
-  top: 35px;
+  position: relative;
+  top: 33px;
   left: -20px;
 }
 
 div.text2 {
-  position: absolute;
-  top: 65px;
+  position: relative;
+  top: 47px;
   left: -20px;
 }
 
 div.text3 {
-  position: absolute;
-  top: 95px;
+  position: relative;
+  top: 57px;
   left: -20px;
 }
 
 div.text4 {
-  position: absolute;
-  top: 125px;
+  position: relative;
+  top: 69px;
   left: -20px;
 }
 
 div.text5 {
-  position: absolute;
-  top: 155px;
+  position: relative;
+  top: 81px;
   left: -20px;
 }
 
 div.text6 {
-  position: absolute;
-  top: 185px;
+  position: relative;
+  top: 93px;
   left: -20px;
 }
 
 div.text7 {
-  position: absolute;
-  top: 215px;
+  position: relative;
+  top: 105px;
   left: -20px;
 }
 
 div.text8 {
-  position: absolute;
-  top: 245px;
+  position: relative;
+  top: 117px;
   left: -20px;
 }
 
 div.text9 {
-  position: absolute;
-  top: 275px;
+  position: relative;
+  top: 129px;
   left: -20px;
 }
 
 div.text10 {
-  position: absolute;
-  top: 305px;
+  position: relative;
+  top: 141px;
   left: -24px;
 }
 
 div.both {
-  position: absolute;
+  position: relative;
   top: 75px;
   left: 100px;
 }
