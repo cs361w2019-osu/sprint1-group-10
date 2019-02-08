@@ -23,10 +23,20 @@ function markHits(board, elementId, surrenderText) {
             className = "miss";
         else if (attack.result === "HIT")
             className = "hit";
-        else if (attack.result === "SUNK")
-            className = "hit"
-        else if (attack.result === "SURRENDER")
-            alert(surrenderText);
+        }
+        else if (attack.result === "SUNK"){
+            if (isPlayer){// Only log if it's a players move
+                logEvent("Sunk");// Log event in console
+                hits++;
+            }
+            className = "hit";
+        }
+        else if (attack.result === "SURRENDER"){
+            logEvent("Surrender");// Log event in console
+            logEvent(surrenderText);// Log event in console
+            hits++;
+            className = "hit";
+        }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
 }
