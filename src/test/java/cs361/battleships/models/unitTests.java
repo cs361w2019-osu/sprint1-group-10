@@ -2,48 +2,6 @@ package cs361.battleships.models;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-public class unitTests {
-    /*  ✔💢
-      --Board.java--
-        [💢]Board()
-        [💢]placeShip()
-        [💢]attack()
-        [💢]getShips()
-        [💢]setShips()
-        [💢]getAttacks()
-        [💢]setAttacks()
-      --Game.java--
-        [💢]randCol()
-        [💢]randRow()
-        [💢]randVertical()
-      --Result.java--
-        [💢]getResult()
-        [💢]setResult()
-        [💢]getShip()
-        [💢]setShip()
-        [💢]getLocation()
-        [💢]setLocation()
-      --Ship.java--
-        [💢]Ship(String kind)
-        [💢]getOccupidedSquares()
-        */
-
-    // Board.java test
-
-
-}
-
-
-
-
-/* GRAVEYARD
-package cs361.battleships.models;
-
-import org.junit.Test;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -241,7 +199,6 @@ public class unitTests {
         else
             this.fail++;
     }*/
-/*
     public void testgetLocation(){
         this.testResult = new Result();
         this.testResult.setLocation(testSquare);
@@ -279,4 +236,3 @@ public class unitTests {
             this.fail++
     }
 }
-*/
