@@ -3,9 +3,6 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
-var logSize = 0;
-var hits = 0;
-var miss = 0;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -19,45 +16,17 @@ function makeGrid(table, isPlayer) {
     }
 }
 
-function logEvent(eventText){// Add an event to the log
-    let newEvent = document.createTextNode(`${logSize}: ${eventText} | ${hits}/${miss}\n`);;
-    document.getElementById("gamelog").appendChild(newEvent);// Log event in console
-    document.getElementById("gamelog").scrollTop = document.getElementById("gamelog").scrollHeight;
-    logSize++;
-}
-
-function markHits(board, elementId, surrenderText, isPlayer) {
+function markHits(board, elementId, surrenderText) {
     board.attacks.forEach((attack) => {
         let className;
-        if (attack.result === "MISS"){
-            if (isPlayer){// Only log if it's a players move
-                logEvent("Miss");// Log event in console
-                miss++;
-            }
+        if (attack.result === "MISS")
             className = "miss";
-        }
-        else if (attack.result === "HIT"){
-            if (isPlayer){// Only log if it's a players move
-                logEvent("Hit");// Log event in console
-                hits++;
-            }
+        else if (attack.result === "HIT")
             className = "hit";
-        }
-        else if (attack.result === "SUNK"){
-            if (isPlayer){// Only log if it's a players move
-                logEvent("Sunk");// Log event in console
-                hits++;
-            }
-            className = "hit";
-        }
-        else if (attack.result === "SURRENDER"){
-            if (isPlayer){// Only log if it's a players move
-                logEvent("Surrender");// Log event in console
-                logEvent(surrenderText);// Log event in console
-                hits++;
-            }
-            className = "hit";
-        }
+        else if (attack.result === "SUNK")
+            className = "hit"
+        else if (attack.result === "SURRENDER")
+            alert(surrenderText);
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
 }
@@ -65,10 +34,6 @@ function markHits(board, elementId, surrenderText, isPlayer) {
 function redrawGrid() {
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
-
-    // Remove events form log and then reset our counts
-    Array.from(document.getElementById("gamelog").childNodes).forEach((newEvent) => newEvent.remove());
-    logSize = 0; hits = 0; miss = 0;
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
     if (game === undefined) {
@@ -78,8 +43,8 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
-    markHits(game.opponentsBoard, "opponent", "You won the game",true);
-    markHits(game.playersBoard, "player", "You lost the game",false);
+    markHits(game.opponentsBoard, "opponent", "You won the game");
+    markHits(game.playersBoard, "player", "You lost the game");
 }
 
 var oldListener;
@@ -122,7 +87,7 @@ function sendXhr(method, url, data, handler) {
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
-            logEvent("Cannot complete the action");
+            alert("Cannot complete the action");
             return;
         }
         handler(JSON.parse(req.responseText));
