@@ -4,7 +4,6 @@
 .battleGrid {
     border: 1px solid black;
     border-spacing: 0px;
-    background-color: #ffffff;
 }
 
 .battleGrid tr {
@@ -39,4 +38,10 @@ td:hover {
 
 .miss {
     background-color: blue;
+}
+
+.logbox {
+    height:100px;
+    width:200px;
+    overflow:scroll;
 }
