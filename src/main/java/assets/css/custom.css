@@ -1,6 +1,23 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
+body{
+    background-attachment: fixed;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("https://i.imgur.com/8b2GWQP.jpg");
+
+  }
+
+.table1 {
+    background-color: #ffffff;
+}
+
+.table2 {
+    background-color: #ffffff;
+}
+
 .battleGrid {
     border: 1px solid black;
     border-spacing: 0px;
@@ -51,60 +68,70 @@ div.text1 {
   position: relative;
   top: 33px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text2 {
   position: relative;
   top: 47px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text3 {
   position: relative;
   top: 57px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text4 {
   position: relative;
   top: 69px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text5 {
   position: relative;
   top: 81px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text6 {
   position: relative;
   top: 93px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text7 {
   position: relative;
   top: 105px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text8 {
   position: relative;
   top: 117px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text9 {
   position: relative;
   top: 129px;
   left: -20px;
+  background-color: #ffffff;
 }
 
 div.text10 {
   position: relative;
   top: 141px;
-  left: -24px;
+  left: -20px;
+  background-color: #ffffff;
 }
 
 div.both {
