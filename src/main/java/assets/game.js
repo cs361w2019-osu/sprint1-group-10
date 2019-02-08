@@ -51,11 +51,9 @@ function markHits(board, elementId, surrenderText, isPlayer) {
             className = "hit";
         }
         else if (attack.result === "SURRENDER"){
-            if (isPlayer){// Only log if it's a players move
-                logEvent("Surrender");// Log event in console
-                logEvent(surrenderText);// Log event in console
-                hits++;
-            }
+            logEvent("Surrender");// Log event in console
+            logEvent(surrenderText);// Log event in console
+            hits++;
             className = "hit";
         }
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
