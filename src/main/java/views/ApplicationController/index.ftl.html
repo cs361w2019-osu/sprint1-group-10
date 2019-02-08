@@ -4,7 +4,7 @@
 
 <h1>The Battleship game</h1>
 
-
+<span class="stack">
     <div class="table1">
         <div class="text1"> 1 </div>
         <div class="text2"> 2 </div>
@@ -21,6 +21,13 @@
     </table>
     </div>
 
+
+    <textarea id="gamelog" class="logbox">
+    </textarea>
+
+</span>
+
+<span class="stack">
     <div class="table2">
         <div class="text1"> 1 </div>
         <div class="text2"> 2 </div>
@@ -36,21 +43,20 @@
     <table id="player" class="battleGrid">
     </table>
     </div>
+    <ul class="buttonList">
+        <li><button id="place_minesweeper">Place Minesweeper</button></li>
+        <li><button id="place_destroyer">Place Destroyer</button></li>
+        <li><button id="place_battleship">Place Battleship</button></li>
+        <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+        <li><button id="Reset" class="resetButton">Reset</button></li>
+    </ul>
+</span>
 
-<textarea id="gamelog" class="logbox">
-</textarea>
 
-<ul>
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-</ul>
 
-<div>
-    <button id="Reset">Reset</button>
-</div>
+
+
+
 
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>

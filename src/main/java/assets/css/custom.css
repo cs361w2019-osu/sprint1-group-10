@@ -108,15 +108,12 @@ div.text10 {
 }
 
 div.table1 {
-  position: absolute;
-  top: 75px;
-  left: 50px;
+
+
 }
 
 div.table2 {
-  position: absolute;
-  top: 75px;
-  left: 450px;
+
 }
 
 div.both {
@@ -126,7 +123,18 @@ div.both {
 }
 
 .logbox {
-    height:100px;
-    width:200px;
+    margin-top: 26px;
+    height:296px;
+    width:167px;
     overflow:scroll;
+    display: flex;
+}
+
+span.stack {
+    display: flex;
+    justify-content: center;
+}
+
+.sideToSide{
+    display: flex;
 }
