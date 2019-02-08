@@ -124,3 +124,9 @@ div.both {
   top: 75px;
   left: 100px;
 }
+
+.logbox {
+    height:100px;
+    width:200px;
+    overflow:scroll;
+}
