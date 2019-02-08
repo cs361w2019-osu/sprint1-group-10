@@ -1,8 +1,47 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">    
 
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
+<style>
+body{
+    background-attachment: fixed;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("https://i.imgur.com/8b2GWQP.jpg");
 
-<h1>The Battleship game</h1>
+  }
+ul{
+  width:200px;
+  display:block;
+    background-color: white;
+      text-align: center;
+}
+
+li{
+    width:auto;
+  display:block;
+}
+
+.box {
+
+  display: flex;
+}
+
+.box > div {
+  background-color: #000000;
+  height:20px;
+  width: 20px;
+  margin: 5px;
+}
+.title{
+  color:#ffffff;
+  text-align: center;
+  font-weight: 400;
+}
+</style>
+
+<h1 class="title">The Battleship game</h1>
+
 
 <table id="opponent" class="battleGrid">
 </table>
@@ -10,23 +49,36 @@
 <table id="player" class="battleGrid">
 </table>
 
-<textarea id="gamelog" class="logbox">
-</textarea>
-
 <ul>
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
+    <p>Ship Placement</p>
+    <li><button id="place_minesweeper">
+        <div class="box">
+          <div></div>
+          <div></div>
+        </div>
+    </button></li>
+    <li><button id="place_destroyer">
+            <div class="box">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div></button></li>
+    <li><button id="place_battleship">
+           <div class="box">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div></button></li>
     <li><input type="checkbox" id="is_vertical">Vertical</input></li>
 </ul>
 
-<div>
-    <button id="Reset">Reset</button>
-</div>
 
 <script type="text/javascript" src="/assets/game.js"></script>
 <script>
     initGame();
 </script>
+
+
 
 </@layout.myLayout>
