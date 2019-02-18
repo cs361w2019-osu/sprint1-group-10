@@ -3,6 +3,9 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
+var logSize = 0;
+var hits = 0;
+var miss = 0;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -16,12 +19,28 @@ function makeGrid(table, isPlayer) {
     }
 }
 
-function markHits(board, elementId, surrenderText) {
+function logEvent(eventText){// Add an event to the log
+    let newEvent = document.createTextNode(`${logSize}: ${eventText} | ${hits}/${miss}\n`);;
+    document.getElementById("gamelog").appendChild(newEvent);// Log event in console
+    document.getElementById("gamelog").scrollTop = document.getElementById("gamelog").scrollHeight;
+    logSize++;
+}
+
+function markHits(board, elementId, surrenderText, isPlayer) {
     board.attacks.forEach((attack) => {
         let className;
-        if (attack.result === "MISS")
+        if (attack.result === "MISS"){
+            if (isPlayer){// Only log if it's a players move
+                logEvent("Miss");// Log event in console
+                miss++;
+            }
             className = "miss";
-        else if (attack.result === "HIT")
+        }
+        else if (attack.result === "HIT"){
+            if (isPlayer){// Only log if it's a players move
+                logEvent("Hit");// Log event in console
+                hits++;
+            }
             className = "hit";
         }
         else if (attack.result === "SUNK"){
@@ -44,6 +63,10 @@ function markHits(board, elementId, surrenderText) {
 function redrawGrid() {
     Array.from(document.getElementById("opponent").childNodes).forEach((row) => row.remove());
     Array.from(document.getElementById("player").childNodes).forEach((row) => row.remove());
+
+    // Remove events form log and then reset our counts
+    Array.from(document.getElementById("gamelog").childNodes).forEach((newEvent) => newEvent.remove());
+    logSize = 0; hits = 0; miss = 0;
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
     if (game === undefined) {
@@ -53,8 +76,8 @@ function redrawGrid() {
     game.playersBoard.ships.forEach((ship) => ship.occupiedSquares.forEach((square) => {
         document.getElementById("player").rows[square.row-1].cells[square.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add("occupied");
     }));
-    markHits(game.opponentsBoard, "opponent", "You won the game");
-    markHits(game.playersBoard, "player", "You lost the game");
+    markHits(game.opponentsBoard, "opponent", "You won the game",true);
+    markHits(game.playersBoard, "player", "You lost the game",false);
 }
 
 var oldListener;
@@ -97,7 +120,7 @@ function sendXhr(method, url, data, handler) {
     var req = new XMLHttpRequest();
     req.addEventListener("load", function(event) {
         if (req.status != 200) {
-            alert("Cannot complete the action");
+            logEvent("Cannot complete the action");
             return;
         }
         handler(JSON.parse(req.responseText));
