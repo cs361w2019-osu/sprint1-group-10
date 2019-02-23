@@ -89,6 +89,11 @@ public class Ship {
 	}
 
 	@JsonIgnore
+	public Square getCC(){
+		return occupiedSquares.get(0);
+	}
+
+	@JsonIgnore
 	public boolean isSunk() {
 		return getOccupiedSquares().stream().allMatch(s -> s.isHit());
 	}
