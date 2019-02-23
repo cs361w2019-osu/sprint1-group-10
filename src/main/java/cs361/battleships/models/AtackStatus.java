@@ -28,4 +28,8 @@ public enum AtackStatus {
 	 */
 	INVALID,
 
+	SONARHIT,
+
+	SONARMISS,
+
 }

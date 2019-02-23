@@ -53,6 +53,8 @@ public class Square {
 		hit = true;
 	}
 
+	public void nohit(){hit = false;}
+
 	@Override
 	public String toString() {
 		return "(" + row + ", " + column + ')';
