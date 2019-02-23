@@ -34,20 +34,26 @@ public class Game {
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-    public boolean attack(int x, char  y) {
-        Result playerAttack = opponentsBoard.attack(x, y);
-        if (playerAttack.getResult() == INVALID) {
-            return false;
+    public boolean attack(int x, char  y, boolean useSonar) {
+        if(useSonar){
+            opponentsBoard.sonar(x,y);
+            return true;
         }
+        else{
+            Result playerAttack = opponentsBoard.attack(x, y, useSonar);
+            if (playerAttack.getResult() == INVALID) {
+                return false;
+            }
 
-        Result opponentAttackResult;
-        do {
-            // AI does random attacks, so it might attack the same spot twice
-            // let it try until it gets it right
-            opponentAttackResult = playersBoard.attack(randRow(), randCol());
-        } while(opponentAttackResult.getResult() == INVALID);
+            Result opponentAttackResult;
+            do {
+                // AI does random attacks, so it might attack the same spot twice
+                // let it try until it gets it right
+                opponentAttackResult = playersBoard.attack(randRow(), randCol(),false);
+            } while(opponentAttackResult.getResult() == INVALID);
 
-        return true;
+            return true;
+        }
     }
 
     private char randCol() {
