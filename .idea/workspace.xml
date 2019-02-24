@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="503a09b3-5e1f-478a-942d-91cd1362384b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assets/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/assets/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/assets/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/AtackStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/AtackStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Ship.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cs361/battleships/models/Ship.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,15 +29,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="143" column="20" selection-start-line="143" selection-start-column="20" selection-end-line="143" selection-end-column="20" />
+            <state relative-caret-position="120">
+              <caret line="128" column="59" selection-start-line="128" selection-start-column="59" selection-end-line="128" selection-end-column="59" />
               <folding>
-                <element signature="e#5332#5333#0" expanded="true" />
-                <element signature="e#5351#5352#0" expanded="true" />
-                <element signature="e#5379#5380#0" expanded="true" />
-                <element signature="e#5415#5416#0" expanded="true" />
-                <element signature="e#5447#5448#0" expanded="true" />
-                <element signature="e#5492#5493#0" expanded="true" />
+                <element signature="e#5339#5340#0" expanded="true" />
+                <element signature="e#5358#5359#0" expanded="true" />
+                <element signature="e#5386#5387#0" expanded="true" />
+                <element signature="e#5422#5423#0" expanded="true" />
+                <element signature="e#5454#5455#0" expanded="true" />
+                <element signature="e#5499#5500#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -54,10 +55,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1275">
-              <caret line="92" column="36" selection-start-line="92" selection-start-column="36" selection-end-line="92" selection-end-column="36" />
+            <state relative-caret-position="-108">
+              <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2521#2522#0" expanded="true" />
+                <element signature="e#2920#2921#0" expanded="true" />
+                <element signature="e#3007#3008#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,7 +70,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
+            <state relative-caret-position="-1">
               <caret line="28" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
@@ -75,7 +79,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/assets/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-903">
+            <state relative-caret-position="739">
               <caret line="51" column="28" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
             </state>
           </provider>
@@ -129,10 +133,10 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Game.java" />
         <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java" />
         <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/AtackStatus.java" />
         <option value="$PROJECT_DIR$/src/main/java/assets/game.js" />
         <option value="$PROJECT_DIR$/src/main/java/assets/css/custom.css" />
+        <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java" />
         <option value="$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java" />
       </list>
     </option>
@@ -246,7 +250,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550969608734" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550972283556" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunDashboard">
@@ -306,7 +310,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="3" y="23" width="1429" height="812" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2444124" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -375,15 +378,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/assets/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-903">
+        <state relative-caret-position="739">
           <caret line="51" column="28" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
@@ -394,27 +390,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Square.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Ship.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1275">
-          <caret line="92" column="36" selection-start-line="92" selection-start-column="36" selection-end-line="92" selection-end-column="36" />
+        <state relative-caret-position="-108">
+          <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#2521#2522#0" expanded="true" />
+            <element signature="e#2920#2921#0" expanded="true" />
+            <element signature="e#3007#3008#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cs361/battleships/models/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="143" column="20" selection-start-line="143" selection-start-column="20" selection-end-line="143" selection-end-column="20" />
+        <state relative-caret-position="120">
+          <caret line="128" column="59" selection-start-line="128" selection-start-column="59" selection-end-line="128" selection-end-column="59" />
           <folding>
-            <element signature="e#5332#5333#0" expanded="true" />
-            <element signature="e#5351#5352#0" expanded="true" />
-            <element signature="e#5379#5380#0" expanded="true" />
-            <element signature="e#5415#5416#0" expanded="true" />
-            <element signature="e#5447#5448#0" expanded="true" />
-            <element signature="e#5492#5493#0" expanded="true" />
+            <element signature="e#5339#5340#0" expanded="true" />
+            <element signature="e#5358#5359#0" expanded="true" />
+            <element signature="e#5386#5387#0" expanded="true" />
+            <element signature="e#5422#5423#0" expanded="true" />
+            <element signature="e#5454#5455#0" expanded="true" />
+            <element signature="e#5499#5500#0" expanded="true" />
           </folding>
         </state>
       </provider>

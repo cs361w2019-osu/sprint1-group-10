@@ -122,31 +122,44 @@ public class Board {
 		if(!useSonar){
 			var hitShip = shipsAtLocation.get(0);
 			var attackResult = hitShip.attack(s.getRow(), s.getColumn());
-			if(attackResult.getResult() == AtackStatus.HIT && hitShip.getCC().getRow() == s.getRow() && hitShip.getCC().getColumn() == s.getColumn() && hitShip.getKind().equals("MINESWEEPER")){
+			if(attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("MINESWEEPER")){
 				Square tmpS = hitShip.getOccupiedSquares().get(1);
 				attacks.add(attackResult);
 				attackResult = hitShip.attack(tmpS.getRow(),tmpS.getColumn());
+				attackResult.setResult(AtackStatus.CAPHIT);
 			}
-			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCC().getRow() == s.getRow() && hitShip.getCC().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")){
+			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCD().getRow() == s.getRow() && hitShip.getCCD().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")){
 				if (capNumD == 1) {
-					Square tmpS = hitShip.getOccupiedSquares().get(1);
+					Square tmpS = hitShip.getOccupiedSquares().get(0);
 					attacks.add(attackResult);
 					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
 					attacks.add(attackResult);
 					tmpS = hitShip.getOccupiedSquares().get(2);
 					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					//attacks.add(attackResult);
 				}
 				else if (capNumD == 0){
 					capNumD++;
 					attackResult.setResult(AtackStatus.CAPHIT);
-					s.nohit();
-
+					hitShip.getCCD().nohit();
 				}
 			}
-			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCC().getRow() == s.getRow() && hitShip.getCC().getColumn() == s.getColumn() && hitShip.getKind().equals("BATTLESHIP")){
-				//if (capNumD == 1)  {
-				attackResult.setResult(AtackStatus.CAPHIT);
+			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCB().getRow() == s.getRow() && hitShip.getCCB().getColumn() == s.getColumn() && hitShip.getKind().equals("BATTLESHIP")){
+				if (capNumB == 1) {
+					Square tmpS = hitShip.getOccupiedSquares().get(0);
+					attacks.add(attackResult);
+					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+					attacks.add(attackResult);
+					tmpS = hitShip.getOccupiedSquares().get(1);
+					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+					attacks.add(attackResult);
+					tmpS = hitShip.getOccupiedSquares().get(3);
+					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+				}
+				else if (capNumB == 0){
+					capNumB++;
+					attackResult.setResult(AtackStatus.CAPHIT);
+					hitShip.getCCB().nohit();
+				}
 			}
 			if (attackResult.getResult() == AtackStatus.SUNK) {
 				if (ships.stream().allMatch(ship -> ship.isSunk())) {

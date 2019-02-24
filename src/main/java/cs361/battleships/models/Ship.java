@@ -89,9 +89,15 @@ public class Ship {
 	}
 
 	@JsonIgnore
-	public Square getCC(){
+	public Square getCCM(){
 		return occupiedSquares.get(0);
 	}
+
+	@JsonIgnore
+	public Square getCCD() { return occupiedSquares.get(1);}
+
+	@JsonIgnore
+	public Square getCCB() { return occupiedSquares.get(2);}
 
 	@JsonIgnore
 	public boolean isSunk() {
