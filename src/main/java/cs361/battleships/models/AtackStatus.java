@@ -32,4 +32,6 @@ public enum AtackStatus {
 
 	SONARMISS,
 
+	CAPHIT,
+
 }
