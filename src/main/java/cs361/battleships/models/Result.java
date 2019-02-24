@@ -6,7 +6,7 @@ public class Result {
 
 	@JsonProperty private AtackStatus result;
 	@JsonProperty private Square location;
-	@JsonProperty private Ship ship;
+	@JsonProperty private Ship ship; /*here*/
 
 	@SuppressWarnings("unused")
 	public Result() {
