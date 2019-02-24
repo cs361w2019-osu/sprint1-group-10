@@ -11,11 +11,16 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Minesweeper extends Ship {
-	private String kind;
+	private String name;
 	private int size;
 	
     public Minesweeper(){
-        this.kind = "MINESWEEPER";
+        this.name = "MINESWEEPER";
         size = 2;
+    }
+
+    @Override
+    public String getKind(){
+        return this.name;
     }
 }

@@ -11,10 +11,15 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Destroyer extends Ship {
-	private String kind;
+	private String name;
 	private int size;
     public Destroyer(){
-        this.kind = "DESTROYER";
+        this.name = "DESTROYER";
         size = 3;
+    }
+
+    @Override
+    public String getKind(){
+        return this.name;
     }
 }

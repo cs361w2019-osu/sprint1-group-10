@@ -11,10 +11,15 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Battleship extends Ship {
-	private String kind;
+	private String name;
 	private int size;
     public Battleship(){
-        this.kind = "BATTLESHIP";
+        this.name = "BATTLESHIP";
         size = 4;
+    }
+
+    @Override
+    public String getKind(){
+        return this.name;
     }
 }
