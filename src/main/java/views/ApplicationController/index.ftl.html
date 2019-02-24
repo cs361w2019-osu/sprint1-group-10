@@ -1,8 +1,8 @@
-<#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">    
+<#import "../layout/defaultLayout.ftl.html" as layout>
+<@layout.myLayout "Home page">
 
 
-<h1 style="color: #ffffff;">The Battleship game</h1>
+<h1 style="color: #ffffff; text-align: center;">The Battleship game</h1>
 
 <span class="stack">
     <section>
@@ -48,13 +48,16 @@
     <table id="player" class="battleGrid">
     </table>
     </div>
-    <ul class="buttonList">
-        <li><button id="place_minesweeper">Place Minesweeper</button></li>
-        <li><button id="place_destroyer">Place Destroyer</button></li>
-        <li><button id="place_battleship">Place Battleship</button></li>
-        <li><input type="checkbox" id="is_vertical">Vertical</input></li>
-        <li><button id="Reset" class="resetButton">Reset</button></li>
-    </ul>
+    <div style="background-color:#7f93ff; width:auto; height:160px;">
+        <ul style="list-style-type: none; margin: 10px; padding: 5px;align-items: center;" class="buttonList">
+            <li><button id="place_minesweeper">Place Minesweeper</button></li>
+            <li><button id="place_destroyer">Place Destroyer</button></li>
+            <li><button id="place_battleship">Place Battleship</button></li>
+            <li><input type="checkbox" id="use_sonar">Use Sonar</input></li>
+            <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+            <li><button id="Reset" class="resetButton">Reset</button></li>
+        </ul>
+    </div>
 </span>
 
 <script type="text/javascript" src="/assets/game.js"></script>

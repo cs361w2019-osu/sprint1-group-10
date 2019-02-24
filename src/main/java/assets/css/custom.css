@@ -57,6 +57,18 @@ td:hover {
     background-color: blue;
 }
 
+.sonar {
+    background-color: rgb(104,104,104);
+}
+
+.sonarHit{
+    background-color: black;
+}
+
+.capHit{
+    background-color: red;
+}
+
 .gridBorder {
     font_weight: bold;
     margin-top: 4px;

@@ -6,6 +6,7 @@ var vertical;
 var logSize = 0;
 var hits = 0;
 var miss = 0;
+var useSonar = false;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -49,6 +50,18 @@ function markHits(board, elementId, surrenderText, isPlayer) {
                 hits++;
             }
             className = "hit";
+        }
+        else if (attack.result == "CAPHIT"){
+            if (isPlayer){
+                logEvent("Captain's Quarters Hit");
+            }
+            className = "capHit";
+        }
+        else if(attack.result === "SONARHIT"){
+            className = "sonarHit";
+        }
+        else if(attack.result === "SONARMISS"){
+            className = "sonar";
         }
         else if (attack.result === "SURRENDER"){
             logEvent("Surrender");// Log event in console
@@ -98,6 +111,7 @@ function registerCellListener(f) {
 function cellClick() {
     let row = this.parentNode.rowIndex + 1;
     let col = String.fromCharCode(this.cellIndex + 65);
+    let useSonar = document.getElementById("use_sonar").checked;
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
@@ -109,10 +123,18 @@ function cellClick() {
             }
         });
     } else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-            game = data;
-            redrawGrid();
-        })
+        if(useSonar){
+            sendXhr("POST", "/attack", {game: game, x: row, y: col,useSonar: true}, function(data) {
+                game = data;
+                redrawGrid();
+            })
+        }
+        else{
+            sendXhr("POST", "/attack", {game: game, x: row, y: col,useSonar: false}, function(data) {
+                game = data;
+                redrawGrid();
+            })
+        }
     }
 }
 
