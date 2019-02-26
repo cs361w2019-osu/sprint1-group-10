@@ -126,7 +126,7 @@ public class Board {
 				Square tmpS = hitShip.getOccupiedSquares().get(1);
 				attacks.add(attackResult);
 				attackResult = hitShip.attack(tmpS.getRow(),tmpS.getColumn());
-				attackResult.setResult(AtackStatus.CAPHIT);
+				//attackResult.setResult(AtackStatus.CAPHIT); This changes the final hit form SUNK to cap hit witch won't trigger the surrender
 			}
 			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCD().getRow() == s.getRow() && hitShip.getCCD().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")){
 				if (capNumD == 1) {

@@ -39,13 +39,10 @@ public class BoardTest {
 
     @Test
     public void testAttackShip() {
-        //Ship minesweeper = new Ship("MINESWEEPER");
-        //board.placeShip(minesweeper, 1, 'A', false);
-        //minesweeper = board.getShips().get(0);
-        //Result result = board.attack(1, 'B',false);
-        //assertEquals(AtackStatus.HIT, result.getResult());
-        //assertEquals(minesweeper, result.getShip());
-        assertEquals(true,true);
+        Ship minesweeper = new Ship("DESTROYER");
+        board.placeShip(minesweeper, 1, 'A', false);
+        Result result = board.attack(1, 'A',false);
+        assertEquals(AtackStatus.HIT, result.getResult());
     }
 
     @Test
@@ -67,10 +64,10 @@ public class BoardTest {
 
     @Test
     public void testSurrender() {
-        //board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
-        //board.attack(1, 'A',false);
-        //var result = board.attack(1, 'B',false);
-        assertEquals(AtackStatus.SURRENDER, AtackStatus.SURRENDER);
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
+        board.attack(1,'B',false);
+        var result = board.attack(1, 'A',false);
+        assertEquals(AtackStatus.SURRENDER, result.getResult());
     }
 
     @Test
