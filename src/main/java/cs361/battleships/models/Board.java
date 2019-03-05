@@ -10,6 +10,7 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private Weapons spaceLaser;
 	@JsonProperty private int numSonar;
 	@JsonProperty private int capNumD = 0;
 	@JsonProperty private int capNumB = 0;
@@ -97,6 +98,9 @@ public class Board {
 	}
 
 	private Result attack(Square s,boolean useSonar) {
+		if(spaceLaser.getUpgrade() == true) {
+
+		}
 		if(!useSonar){
 			int numItems = attacks.size();
 			for(int i = 0; i < numItems; i++){
@@ -164,6 +168,7 @@ public class Board {
 			if (attackResult.getResult() == AtackStatus.SUNK) {
 				if (ships.stream().allMatch(ship -> ship.isSunk())) {
 					attackResult.setResult(AtackStatus.SURRENDER);
+					spaceLaser.setUpgrade(true);
 				}
 			}
 			return attackResult;
