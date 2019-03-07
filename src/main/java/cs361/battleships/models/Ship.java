@@ -13,6 +13,7 @@ import java.util.Set;
 public class Ship {
 
 	@JsonProperty private String kind;
+	@JsonProperty private Boolean underwater;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
 
@@ -25,15 +26,31 @@ public class Ship {
 		this.kind = kind;
 		switch(kind) {
 			case "MINESWEEPER":
+				this.underwater = false;
 				size = 2;
 				break;
 			case "DESTROYER":
+				this.underwater = false;
 				size = 3;
 				break;
 			case "BATTLESHIP":
+				this.underwater = false;
 				size = 4;
 				break;
+			case "SUB":
+				this.underwater = false;
+				size = 5;
+				break;
+			case "SUBB":
+				this.underwater = true;
+				this.kind = "SUB";
+				size = 5;
+				break;
 		}
+	}
+
+	public boolean isUnderwater(){
+		return underwater;
 	}
 
 	public List<Square> getOccupiedSquares() {
@@ -41,12 +58,32 @@ public class Ship {
 	}
 
 	public void place(char col, int row, boolean isVertical) {
-		for (int i=0; i<size; i++) {
-			if (isVertical) {
-				occupiedSquares.add(new Square(row+i, col));
-			} else {
-				occupiedSquares.add(new Square(row, (char) (col + i)));
-			}
+		switch (this.kind) {
+			case "SUB":
+				for (int i = 0; i < size - 1; i++) {
+					if (isVertical) {
+						occupiedSquares.add(new Square(row + i, col));
+					} else {
+						occupiedSquares.add(new Square(row, (char) (col + i)));
+					}
+				}
+				if (isVertical) {
+					occupiedSquares.add(new Square(row + 1, (char) (col + 1)));
+				} else {
+					occupiedSquares.add(new Square(row - 1, (char) (col + 1)));
+				}
+				System.out.println("We are a sub");
+				break;
+			default:
+				for (int i = 0; i < size; i++) {
+					if (isVertical) {
+						occupiedSquares.add(new Square(row + i, col));
+					} else {
+						occupiedSquares.add(new Square(row, (char) (col + i)));
+					}
+				}
+				System.out.println("We are not a sub");
+				break;
 		}
 	}
 

@@ -113,11 +113,14 @@ function cellClick() {
     let col = String.fromCharCode(this.cellIndex + 65);
     let useSonar = document.getElementById("use_sonar").checked;
     if (isSetup) {
+        if(shipType == "SUB" && document.getElementById("place_submarine_underwater").checked){// Flag as an underwater sub
+            shipType == "SUBB";
+        }
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
             redrawGrid();
             placedShips++;
-            if (placedShips == 3) {
+            if (placedShips == 4) {
                 isSetup = false;
                 registerCellListener((e) => {});
             }
@@ -158,6 +161,11 @@ function place(size) {
         let col = this.cellIndex;
         vertical = document.getElementById("is_vertical").checked;
         let table = document.getElementById("player");
+        let sub = false;
+        if(size == 5){// If we have a sub add the extra square
+            size = 4
+            sub = true;
+        }
         for (let i=0; i<size; i++) {
             let cell;
             if(vertical) {
@@ -176,6 +184,39 @@ function place(size) {
             }
             cell.classList.toggle("placed");
         }
+        if(sub){
+            let cell;
+            if(vertical) {
+                let tableRow = table.rows[row+1];
+                if (tableRow === undefined) {
+                    // ship is over the edge; let the back end deal with it
+                    sub = false;
+                    size = 5;
+                    return;
+                }
+                cell = tableRow.cells[col+1];
+            } else {
+                let tableRow = table.rows[row-1];
+                if (tableRow === undefined) {
+                    // ship is over the edge; let the back end deal with it
+                    sub = false;
+                    size = 5;
+                    return;
+                }
+                let tmp = col+1;
+                cell = tableRow.cells[tmp];
+            }
+            if (cell === undefined) {
+                // ship is over the edge; let the back end deal with it
+                sub = false;
+                size = 5;
+                return;
+            }
+            cell.classList.toggle("placed");
+
+            sub = false;
+            size = 5;
+        }
     }
 }
 
@@ -193,6 +234,10 @@ function initGame() {
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
+    });
+    document.getElementById("place_sub").addEventListener("click", function(e) {
+        shipType = "SUB";
+       registerCellListener(place(5));
     });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;

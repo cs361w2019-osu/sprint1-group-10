@@ -27,7 +27,7 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		if (ships.size() >= 3) {
+		if (ships.size() >= 4) {
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
@@ -36,7 +36,9 @@ public class Board {
 		final var placedShip = new Ship(ship.getKind());
 		placedShip.place(y, x, isVertical);
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			return false;
+			if(!ship.isUnderwater()){// If the ship is underwater then overlap doesn't matter
+				return false;
+			}
 		}
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
 			return false;
@@ -54,7 +56,7 @@ public class Board {
 		return attackResult;
 	}
 
-	public void sonarAtk(int x,char y){//FIXME: Write test functionss
+	public void sonarAtk(int x,char y){
 		Square tmpS = new Square(x,y);
 		Result tmpR = attack(tmpS,true);
 		if(tmpR.getResult() == AtackStatus.HIT){// Center of the sonar
@@ -71,7 +73,7 @@ public class Board {
 		//If it's not hit or miss then it's invalid and out of bounds in witch case we don't care
 	}
 
-	public void sonar(int x, char y){//FIXME: Write test functions
+	public void sonar(int x, char y){
 		if(numSonar < 2){
 			for(int i = 0; i < attacks.size(); i++){// Search for the first sunk ship
 				if(attacks.get(i).getResult() == AtackStatus.SUNK){
