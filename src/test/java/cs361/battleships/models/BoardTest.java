@@ -78,10 +78,11 @@ public class BoardTest {
     }
 
     @Test
-    public void testCantPlaceMoreThan3Ships() {
+    public void testCantPlaceMoreThan4Ships() {
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
         assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'D', true));
         assertTrue(board.placeShip(new Ship("DESTROYER"), 6, 'A', false));
+        assertTrue(board.placeShip(new Ship("SUB"), 2, 'B', false));
         assertFalse(board.placeShip(new Ship(""), 8, 'A', false));
 
     }
@@ -185,5 +186,48 @@ public class BoardTest {
         Ship test = new Ship("DESTROYER");
         g.placeShip(test,1,'A',false);
         assertEquals(true,g.attack(1,'A',false));
+    }
+
+    @Test
+    public void testUderwaterSub(){
+        Game g = new Game();
+        Ship testD = new Ship("DESTROYER");
+        Ship testS = new Ship("SUB");
+        Ship testSUnerwater = new Ship("SUBB");
+        g.placeShip(testD,1,'A',false);
+        assertEquals(false,g.placeShip(testS,2,'A',false));
+        assertEquals(true,g.placeShip(testSUnerwater,2,'A',false));
+    }
+
+    @Test
+    public void testCap(){
+        Board b = new Board();
+        b.placeShip(new Ship("SUB"),2,'A',false);
+        b.placeShip(new Ship("DESTROYER"),3,'A',false);
+        b.placeShip(new Ship("MINESWEEPER"),4,'A',false);
+        b.placeShip(new Ship("BATTLESHIP"),5,'A',false);
+        b.attack(2,'A',false);
+        b.attack(3,'B',false);
+        b.attack(4,'A',false);
+        b.attack(5,'C',false);
+        // Check CC
+        var total = 0;
+        for(int i=0;i < b.getAtacks().size();i++){
+            if(b.getAtacks().get(i).getResult().equals(AtackStatus.CAPHIT)){
+                total++;
+            }
+        }
+        assertEquals(3,total);
+        b.attack(2,'A',false);
+        b.attack(3,'B',false);
+        b.attack(4,'A',false);
+        b.attack(5,'C',false);
+        total = 0;
+        for(int i=0;i < b.getAtacks().size();i++){
+            if(b.getAtacks().get(i).getResult().equals(AtackStatus.SUNK) || b.getAtacks().get(i).getResult().equals(AtackStatus.SURRENDER)){
+                total++;
+            }
+        }
+        assertEquals(4,total);
     }
 }
