@@ -52,6 +52,7 @@ public class Ship {
 	public boolean isUnderwater(){
 		return underwater;
 	}
+	public void goUnderwater() { this.underwater = true;}
 
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
@@ -72,7 +73,6 @@ public class Ship {
 				} else {
 					occupiedSquares.add(new Square(row - 1, (char) (col + 1)));
 				}
-				System.out.println("We are a sub");
 				break;
 			default:
 				for (int i = 0; i < size; i++) {
@@ -82,7 +82,6 @@ public class Ship {
 						occupiedSquares.add(new Square(row, (char) (col + i)));
 					}
 				}
-				System.out.println("We are not a sub");
 				break;
 		}
 	}

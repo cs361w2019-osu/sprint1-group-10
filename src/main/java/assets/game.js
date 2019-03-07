@@ -113,8 +113,8 @@ function cellClick() {
     let col = String.fromCharCode(this.cellIndex + 65);
     let useSonar = document.getElementById("use_sonar").checked;
     if (isSetup) {
-        if(shipType == "SUB" && document.getElementById("place_submarine_underwater").checked){// Flag as an underwater sub
-            shipType == "SUBB";
+        if(shipType === "SUB" && document.getElementById("place_submarine_underwater").checked){// Flag as an underwater sub
+            shipType = "SUBB";
         }
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;
