@@ -10,6 +10,7 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private Weapon spaceLaser = new Weapon();
 	@JsonProperty private int numSonar;
 	@JsonProperty private int capNumD = 0;
 	@JsonProperty private int capNumB = 0;
@@ -128,81 +129,110 @@ public class Board {
 			return attackResult;
 		}
 		if(!useSonar){
-			var hitShip = shipsAtLocation.get(0);
-			var attackResult = hitShip.attack(s.getRow(), s.getColumn());
-			if(attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("MINESWEEPER")){
-				Square tmpS = hitShip.getOccupiedSquares().get(1);
-				attacks.add(attackResult);
-				attackResult = hitShip.attack(tmpS.getRow(),tmpS.getColumn());
-				//attackResult.setResult(AtackStatus.CAPHIT); This changes the final hit form SUNK to cap hit witch won't trigger the surrender
+			for(int i = 0; i < shipsAtLocation.size(); i++) {
+				var hitShip = shipsAtLocation.get(i);
+				if (hitShip.isUnderwater()) {
+					if (spaceLaser.getUpgrade() == true) {
+						System.out.print("What");
+						var attackResult = hitShip.attack(s.getRow(), s.getColumn());
+						if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("SUB")) {
+							if (capNumS == 1) {
+								Square tmpS = hitShip.getOccupiedSquares().get(1);
+								attacks.add(attackResult);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+								attacks.add(attackResult);
+								tmpS = hitShip.getOccupiedSquares().get(2);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+								attacks.add(attackResult);
+								tmpS = hitShip.getOccupiedSquares().get(3);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+								attacks.add(attackResult);
+								tmpS = hitShip.getOccupiedSquares().get(4);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							} else if (capNumS == 0) {
+								capNumS++;
+								attackResult.setResult(AtackStatus.CAPHIT);
+								hitShip.getCCM().nohit();
+							}
+						}
+						return attackResult;
+					} else {
+						var attackResult = new Result(s);
+						return attackResult;
+					}
+				} else {
+					var attackResult = hitShip.attack(s.getRow(), s.getColumn());
+					if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("MINESWEEPER")) {
+						Square tmpS = hitShip.getOccupiedSquares().get(1);
+						attacks.add(attackResult);
+						attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						//attackResult.setResult(AtackStatus.CAPHIT); This changes the final hit form SUNK to cap hit witch won't trigger the surrender
+					} else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCD().getRow() == s.getRow() && hitShip.getCCD().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")) {
+						if (capNumD == 1) {
+							Square tmpS = hitShip.getOccupiedSquares().get(0);
+							attacks.add(attackResult);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(2);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						} else if (capNumD == 0) {
+							capNumD++;
+							attackResult.setResult(AtackStatus.CAPHIT);
+							hitShip.getCCD().nohit();
+						}
+					} else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCB().getRow() == s.getRow() && hitShip.getCCB().getColumn() == s.getColumn() && hitShip.getKind().equals("BATTLESHIP")) {
+						if (capNumB == 1) {
+							Square tmpS = hitShip.getOccupiedSquares().get(0);
+							attacks.add(attackResult);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(1);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(3);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						} else if (capNumB == 0) {
+							capNumB++;
+							attackResult.setResult(AtackStatus.CAPHIT);
+							hitShip.getCCB().nohit();
+						}
+					} else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("SUB")) {
+						if (capNumS == 1) {
+							Square tmpS = hitShip.getOccupiedSquares().get(1);
+							attacks.add(attackResult);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(2);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(3);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(4);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						} else if (capNumS == 0) {
+							capNumS++;
+							attackResult.setResult(AtackStatus.CAPHIT);
+							hitShip.getCCM().nohit();
+						}
+					}
+					if (attackResult.getResult() == AtackStatus.SUNK) {
+						spaceLaser.setUpgrade();
+						if (ships.stream().allMatch(ship -> ship.isSunk())) {
+							attackResult.setResult(AtackStatus.SURRENDER);
+						}
+					}
+					return attackResult;
+				}
 			}
-			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCD().getRow() == s.getRow() && hitShip.getCCD().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")){
-				if (capNumD == 1) {
-					Square tmpS = hitShip.getOccupiedSquares().get(0);
-					attacks.add(attackResult);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(2);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-				}
-				else if (capNumD == 0){
-					capNumD++;
-					attackResult.setResult(AtackStatus.CAPHIT);
-					hitShip.getCCD().nohit();
-				}
-			}
-			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCB().getRow() == s.getRow() && hitShip.getCCB().getColumn() == s.getColumn() && hitShip.getKind().equals("BATTLESHIP")){
-				if (capNumB == 1) {
-					Square tmpS = hitShip.getOccupiedSquares().get(0);
-					attacks.add(attackResult);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(1);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(3);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-				}
-				else if (capNumB == 0){
-					capNumB++;
-					attackResult.setResult(AtackStatus.CAPHIT);
-					hitShip.getCCB().nohit();
-				}
-			}
-			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("SUB")){
-				if (capNumS == 1) {
-					Square tmpS = hitShip.getOccupiedSquares().get(1);
-					attacks.add(attackResult);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(2);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(3);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(4);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-				}
-				else if (capNumS == 0){
-					capNumS++;
-					attackResult.setResult(AtackStatus.CAPHIT);
-					hitShip.getCCM().nohit();
-				}
-			}
-			if (attackResult.getResult() == AtackStatus.SUNK) {
-				if (ships.stream().allMatch(ship -> ship.isSunk())) {
-					attackResult.setResult(AtackStatus.SURRENDER);
-				}
-			}
-			return attackResult;
 		}
 		else {
 			var attackResult = new Result(s);
 			attackResult.setResult(AtackStatus.HIT);
 			return attackResult;
 		}
-
+		var attackResult = new Result(s);
+		return attackResult;
 	}
 
 	List<Ship> getShips() {
