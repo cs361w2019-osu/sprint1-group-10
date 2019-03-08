@@ -48,7 +48,7 @@
     <table id="player" class="battleGrid">
     </table>
     </div>
-    <div style="background-color:#7f93ff; width:auto; height:160px;">
+    <div style="background-color:#7f93ff; width:auto; height:260px;">
         <ul style="list-style-type: none; margin: 10px; padding: 5px;align-items: center;" class="buttonList">
             <li><button id="place_minesweeper">Place Minesweeper</button></li>
             <li><button id="place_destroyer">Place Destroyer</button></li>
@@ -56,6 +56,10 @@
             <li><input type="checkbox" id="use_sonar">Use Sonar</input></li>
             <li><input type="checkbox" id="is_vertical">Vertical</input></li>
             <li><button id="Reset" class="resetButton">Reset</button></li>
+            <li><button id="move_north">Move Fleet North</button></li>
+            <li><button id="move_south">Move Fleet South</button></li>
+            <li><button id="move_east">Move Fleet East</button></li>
+            <li><button id="move_west">Move Fleet West</button></li>
         </ul>
     </div>
 </span>
@@ -66,6 +70,38 @@
         location.reload();
     });
     initGame();
+</script>
+
+<script type="text/javascript" src="/assets/game.js"></script>
+<script>
+    document.getElementById("move_north").addEventListener("click", function(e) {
+        logEvent("North clicked");
+        sendXhr("POST", "/move", {game: game, dir: "n"}, function(data) {
+                game = data;
+                redrawGrid();
+         })
+    })
+    document.getElementById("move_south").addEventListener("click", function(e) {
+        logEvent("South clicked");
+        sendXhr("POST", "/move", {game: game, dir: "s"}, function(data) {
+                game = data;
+                redrawGrid();
+         })
+    })
+    document.getElementById("move_east").addEventListener("click", function(e) {
+        logEvent("East clicked");
+        sendXhr("POST", "/move", {game: game, dir: "e"}, function(data) {
+                game = data;
+                redrawGrid();
+         })
+    })
+    document.getElementById("move_west").addEventListener("click", function(e) {
+        logEvent("West clicked");
+        sendXhr("POST", "/move", {game: game, dir: "w"}, function(data) {
+                game = data;
+                redrawGrid();
+         })
+    })
 </script>
 
 </@layout.myLayout>

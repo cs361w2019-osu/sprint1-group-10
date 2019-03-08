@@ -12,7 +12,8 @@ public class Game {
 
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
-
+    @JsonProperty private int oppenentsSunk = 0;
+    @JsonProperty private int movesMade = 0;
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -44,6 +45,9 @@ public class Game {
             if (playerAttack.getResult() == INVALID) {
                 return false;
             }
+            else if(playerAttack.getResult() == SUNK){
+                addOpponentSunk();
+            }
 
             Result opponentAttackResult;
             do {
@@ -54,6 +58,20 @@ public class Game {
 
             return true;
         }
+    }
+
+    public boolean move(char dir) {
+        if (oppenentsSunk >= 2 && movesMade < 2) {
+            if(playersBoard.moveShips(dir)){
+                movesMade++;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addOpponentSunk() {
+        oppenentsSunk++;
     }
 
     private char randCol() {
