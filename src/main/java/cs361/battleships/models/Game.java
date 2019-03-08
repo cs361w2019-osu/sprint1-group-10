@@ -61,11 +61,12 @@ public class Game {
     }
 
     public boolean move(char dir) {
-        Board movedBoard = playersBoard;
+        Board movedBoard = new Board();
         System.out.print("Made it here!\n");
         if (oppenentsSunk >= 2 && movesMade < 2) {
             movedBoard = moveShips(movedBoard, dir);
             playersBoard = movedBoard;
+            movesMade++;
             return true;
         }
         System.out.print("moveShips returned false\n");
@@ -77,17 +78,23 @@ public class Game {
         Result tempAttack;
         boolean shipMoved;
         if(dir == 'n'){
+            System.out.print("North called\n");
             for(int i = 0; i < playersBoard.getShips().size(); i++){
                 offsetShip = playersBoard.getShips().get(i);
                 shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow()-1, offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
                 if(!shipMoved) {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                    System.out.print("Could not move north.\n");
                 }
                 else {
                     for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
                         tempAttack = playersBoard.getAtacks().get(j);
                         tempAttack.getLocation().setRow(tempAttack.getLocation().getRow()-1);
                         playersBoard.getAtacks().remove(j);
+                        movedBoard.setAttacks(playersBoard.getAtacks());
+                        movedBoard.setNumSonar(playersBoard.getNumSonar());
+                        movedBoard.setCapNumD(playersBoard.getCapNumD());
+                        movedBoard.setCapNumB(playersBoard.getCapNumB());
                         playersBoard.addToAtacks(tempAttack);
                     }
                 }
@@ -95,11 +102,13 @@ public class Game {
             return movedBoard;
         }
         else if(dir == 's'){
+            System.out.print("South called\n");
             for(int i = 0; i < playersBoard.getShips().size(); i++){
                 offsetShip = playersBoard.getShips().get(i);
                 shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow()+1, offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
                 if(!shipMoved) {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                    System.out.print("Could not move south.\n");
                 }
                 else {
                     for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
@@ -113,11 +122,13 @@ public class Game {
             return movedBoard;
         }
         else if(dir == 'e'){
+            System.out.print("East called\n");
             for(int i = 0; i < playersBoard.getShips().size(); i++){
                 offsetShip = playersBoard.getShips().get(i);
                 shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), (char)(offsetShip.getOccupiedSquares().get(0).getColumn()+1), offsetShip.getVertical());
                 if(!shipMoved) {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                    System.out.print("Could not move east.\n");
                 }
                 else {
                     for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
@@ -131,11 +142,13 @@ public class Game {
             return movedBoard;
         }
         else if(dir == 'w'){
+            System.out.print("West called\n");
             for(int i = 0; i < playersBoard.getShips().size(); i++){
                 offsetShip = playersBoard.getShips().get(i);
                 shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), (char)(offsetShip.getOccupiedSquares().get(0).getColumn()-1), offsetShip.getVertical());
                 if(!shipMoved) {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                    System.out.print("Could not move west.\n");
                 }
                 else {
                     for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
