@@ -8,7 +8,7 @@ public class Square {
 
 	@JsonProperty private int row;
 	@JsonProperty private char column;
-	@JsonProperty private boolean hit = false;
+	@JsonProperty private boolean hit;
 
 	public Square() {
 	}
@@ -16,6 +16,7 @@ public class Square {
 	public Square(int row, char column) {
 		this.row = row;
 		this.column = column;
+		this.hit = false;
 	}
 
 	public char getColumn() {

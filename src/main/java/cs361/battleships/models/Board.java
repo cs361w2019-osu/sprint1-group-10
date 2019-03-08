@@ -10,10 +10,13 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private Weapon spaceLaser;
 	@JsonProperty private int numSonar;
-	@JsonProperty private int capNumD = 0;
+	//@JsonProperty private int capNumD = 0;
 	@JsonProperty private int capNumB = 0;
 	@JsonProperty private int capNumS = 0;
+	private Minesweeper M = new Minesweeper();
+	private Destroyer D = new Destroyer();
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -131,25 +134,21 @@ public class Board {
 			var hitShip = shipsAtLocation.get(0);
 			var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 			if(attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("MINESWEEPER")){
-				Square tmpS = hitShip.getOccupiedSquares().get(1);
-				attacks.add(attackResult);
-				attackResult = hitShip.attack(tmpS.getRow(),tmpS.getColumn());
-				//attackResult.setResult(AtackStatus.CAPHIT); This changes the final hit form SUNK to cap hit witch won't trigger the surrender
+				attacks = M.hitCC(attacks, hitShip, attackResult);
+				attackResult = M.getRe();
 			}
 			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCD().getRow() == s.getRow() && hitShip.getCCD().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")){
-				if (capNumD == 1) {
-					Square tmpS = hitShip.getOccupiedSquares().get(0);
-					attacks.add(attackResult);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(2);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+				if(D.getCapNum() == 1) {
+					attacks = D.hitCC1(attacks, hitShip, attackResult);
+					attackResult = D.getRe();
 				}
-				else if (capNumD == 0){
-					capNumD++;
-					attackResult.setResult(AtackStatus.CAPHIT);
-					hitShip.getCCD().nohit();
+				else if(D.getCapNum() == 0) {
+					hitShip = D.hitCC2(attacks, hitShip, attackResult);
+					attackResult = D.getRe();
 				}
+				//attacks = D.hitCC(attacks, hitShip, attackResult);
+				//attackResult = D.getRe();
+				//hitShip.equals(D.getSh());
 			}
 			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCB().getRow() == s.getRow() && hitShip.getCCB().getColumn() == s.getColumn() && hitShip.getKind().equals("BATTLESHIP")){
 				if (capNumB == 1) {

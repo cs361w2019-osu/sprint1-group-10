@@ -146,10 +146,11 @@ public class Ship {
 			return false;
 		}
 		var otherShip = (Ship) other;
-
+		System.out.println("Jeez");
 		return this.kind.equals(otherShip.kind)
 				&& this.size == otherShip.size
 				&& this.occupiedSquares.equals(otherShip.occupiedSquares);
+
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import java.util.Set;
 public class Minesweeper extends Ship {
 	private String name;
 	private int size;
+	private Result re = new Result();
 	
     public Minesweeper(){
         this.name = "MINESWEEPER";
@@ -23,4 +24,16 @@ public class Minesweeper extends Ship {
     public String getKind(){
         return this.name;
     }
+
+    public List<Result> hitCC(List<Result> a, Ship h, Result ar) {
+        Square tmpS = h.getOccupiedSquares().get(1);
+        a.add(ar);
+        re = h.attack(tmpS.getRow(),tmpS.getColumn());
+        return a;
+    }
+
+    public Result getRe() {
+        return re;
+    }
+
 }
