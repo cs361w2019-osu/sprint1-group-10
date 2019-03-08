@@ -13,6 +13,7 @@ public class Board {
 	@JsonProperty private int numSonar;
 	@JsonProperty private int capNumD = 0;
 	@JsonProperty private int capNumB = 0;
+	@JsonProperty private int capNumS = 0;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -27,16 +28,23 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		if (ships.size() >= 3) {
+		if (ships.size() >= 4) {
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
 		final var placedShip = new Ship(ship.getKind());
+		if(ship.isUnderwater()){
+			placedShip.goUnderwater();
+		}
 		placedShip.place(y, x, isVertical);
-		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			return false;
+		for(int i=0;i<ships.size();i++){// Rewritten to check underwater status.
+			if(ships.get(i).overlaps(placedShip)){// If there is an overlap
+				if(ships.get(i).isUnderwater() == placedShip.isUnderwater()) {// If they are both under/above water error out
+					return false;
+				}//Otherwise we are good
+			}
 		}
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
 			return false;
@@ -54,7 +62,7 @@ public class Board {
 		return attackResult;
 	}
 
-	public void sonarAtk(int x,char y){//FIXME: Write test functionss
+	public void sonarAtk(int x,char y){
 		Square tmpS = new Square(x,y);
 		Result tmpR = attack(tmpS,true);
 		if(tmpR.getResult() == AtackStatus.HIT){// Center of the sonar
@@ -71,7 +79,7 @@ public class Board {
 		//If it's not hit or miss then it's invalid and out of bounds in witch case we don't care
 	}
 
-	public void sonar(int x, char y){//FIXME: Write test functions
+	public void sonar(int x, char y){
 		if(numSonar < 2){
 			for(int i = 0; i < attacks.size(); i++){// Search for the first sunk ship
 				if(attacks.get(i).getResult() == AtackStatus.SUNK){
@@ -159,6 +167,27 @@ public class Board {
 					capNumB++;
 					attackResult.setResult(AtackStatus.CAPHIT);
 					hitShip.getCCB().nohit();
+				}
+			}
+			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("SUB")){
+				if (capNumS == 1) {
+					Square tmpS = hitShip.getOccupiedSquares().get(1);
+					attacks.add(attackResult);
+					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+					attacks.add(attackResult);
+					tmpS = hitShip.getOccupiedSquares().get(2);
+					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+					attacks.add(attackResult);
+					tmpS = hitShip.getOccupiedSquares().get(3);
+					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+					attacks.add(attackResult);
+					tmpS = hitShip.getOccupiedSquares().get(4);
+					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+				}
+				else if (capNumS == 0){
+					capNumS++;
+					attackResult.setResult(AtackStatus.CAPHIT);
+					hitShip.getCCM().nohit();
 				}
 			}
 			if (attackResult.getResult() == AtackStatus.SUNK) {
