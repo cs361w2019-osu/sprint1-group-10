@@ -15,7 +15,7 @@ public class Sub extends Ship {
     private int size;
     public Sub(){
         this.name = "SUB";
-        size = 3;
+        size = 5;
     }
 
     @Override
