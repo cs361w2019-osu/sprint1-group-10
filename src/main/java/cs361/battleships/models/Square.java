@@ -26,6 +26,8 @@ public class Square {
 		return row;
 	}
 
+	public boolean getHit() { return hit; }
+
 	public void setRow(int newRow){
 		row = newRow;
 	}

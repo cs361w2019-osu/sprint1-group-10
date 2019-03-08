@@ -61,13 +61,94 @@ public class Game {
     }
 
     public boolean move(char dir) {
+        Board movedBoard = playersBoard;
+        System.out.print("Made it here!\n");
         if (oppenentsSunk >= 2 && movesMade < 2) {
-            if(playersBoard.moveShips(dir)){
-                movesMade++;
-                return true;
-            }
+            movedBoard = moveShips(movedBoard, dir);
+            playersBoard = movedBoard;
+            return true;
         }
+        System.out.print("moveShips returned false\n");
         return false;
+    }
+
+    public Board moveShips(Board movedBoard, char dir){
+        Ship offsetShip;
+        Result tempAttack;
+        boolean shipMoved;
+        if(dir == 'n'){
+            for(int i = 0; i < playersBoard.getShips().size(); i++){
+                offsetShip = playersBoard.getShips().get(i);
+                shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow()-1, offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                if(!shipMoved) {
+                    movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                }
+                else {
+                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                        tempAttack = playersBoard.getAtacks().get(j);
+                        tempAttack.getLocation().setRow(tempAttack.getLocation().getRow()-1);
+                        playersBoard.getAtacks().remove(j);
+                        playersBoard.addToAtacks(tempAttack);
+                    }
+                }
+            }
+            return movedBoard;
+        }
+        else if(dir == 's'){
+            for(int i = 0; i < playersBoard.getShips().size(); i++){
+                offsetShip = playersBoard.getShips().get(i);
+                shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow()+1, offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                if(!shipMoved) {
+                    movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                }
+                else {
+                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                        tempAttack = playersBoard.getAtacks().get(j);
+                        tempAttack.getLocation().setRow(tempAttack.getLocation().getRow()+1);
+                        playersBoard.getAtacks().remove(j);
+                        playersBoard.addToAtacks(tempAttack);
+                    }
+                }
+            }
+            return movedBoard;
+        }
+        else if(dir == 'e'){
+            for(int i = 0; i < playersBoard.getShips().size(); i++){
+                offsetShip = playersBoard.getShips().get(i);
+                shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), (char)(offsetShip.getOccupiedSquares().get(0).getColumn()+1), offsetShip.getVertical());
+                if(!shipMoved) {
+                    movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                }
+                else {
+                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                        tempAttack = playersBoard.getAtacks().get(j);
+                        tempAttack.getLocation().setColumn((char)(tempAttack.getLocation().getColumn()+1));
+                        playersBoard.getAtacks().remove(j);
+                        playersBoard.addToAtacks(tempAttack);
+                    }
+                }
+            }
+            return movedBoard;
+        }
+        else if(dir == 'w'){
+            for(int i = 0; i < playersBoard.getShips().size(); i++){
+                offsetShip = playersBoard.getShips().get(i);
+                shipMoved = movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), (char)(offsetShip.getOccupiedSquares().get(0).getColumn()-1), offsetShip.getVertical());
+                if(!shipMoved) {
+                    movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
+                }
+                else {
+                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                        tempAttack = playersBoard.getAtacks().get(j);
+                        tempAttack.getLocation().setColumn((char)(tempAttack.getLocation().getColumn()-1));
+                        playersBoard.getAtacks().remove(j);
+                        playersBoard.addToAtacks(tempAttack);
+                    }
+                }
+            }
+            return movedBoard;
+        }
+        return playersBoard;
     }
 
     public void addOpponentSunk() {

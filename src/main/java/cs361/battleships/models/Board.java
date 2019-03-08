@@ -48,67 +48,6 @@ public class Board {
 		return true;
 	}
 
-	public boolean isPlaceShipValid(Ship ship, int x, char y, boolean isVertical){
-		if (ships.size() >= 3) {
-			return false;
-		}
-		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
-			return false;
-		}
-		final var placedShip = new Ship(ship.getKind());
-		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			return false;
-		}
-		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean moveShips(char dir){
-		if(dir == 'n'){
-			for(int i = 0; i < ships.size(); i++) { //for each ship
-				if (isPlaceShipValid(ships.get(i),ships.get(i).getOccupiedSquares().get(0).getRow()-1, ships.get(i).getOccupiedSquares().get(0).getColumn(), ships.get(i).getVertical())) { // if move is valid
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) { // for each square in ship
-						ships.get(i).getOccupiedSquares().get(j).setRow(ships.get(i).getOccupiedSquares().get(j).getRow()-1); //move square north by 1
-					}
-				}
-			}
-			return true;
-		}
-		else if(dir == 's'){
-			for(int i = 0; i < ships.size(); i++) { //for each ship
-				if (isPlaceShipValid(ships.get(i),ships.get(i).getOccupiedSquares().get(0).getRow()+1, ships.get(i).getOccupiedSquares().get(0).getColumn(), ships.get(i).getVertical())) { // if move is valid
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) { // for each square in ship
-						ships.get(i).getOccupiedSquares().get(j).setRow(ships.get(i).getOccupiedSquares().get(j).getRow()+1); //move square south by 1
-					}
-				}
-			}
-			return true;
-		}
-		else if(dir == 'e'){
-			for(int i = 0; i < ships.size(); i++) { //for each ship
-				if (isPlaceShipValid(ships.get(i), ships.get(i).getOccupiedSquares().get(0).getRow(), (char)(ships.get(i).getOccupiedSquares().get(0).getColumn()+1), ships.get(i).getVertical())) { // if move is valid
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) { // for each square in ship
-						ships.get(i).getOccupiedSquares().get(j).setColumn((char)(ships.get(i).getOccupiedSquares().get(j).getColumn()+1)); //move square east by 1
-					}
-				}
-			}
-			return true;
-		}
-		else if(dir == 'w'){
-			for(int i = 0; i < ships.size(); i++) { //for each ship
-				if (isPlaceShipValid(ships.get(i), ships.get(i).getOccupiedSquares().get(0).getRow(), (char)(ships.get(i).getOccupiedSquares().get(0).getColumn()-1), ships.get(i).getVertical())) { // if move is valid
-					for (int j = 0; j < ships.get(i).getOccupiedSquares().size(); j++) { // for each square in ship
-						ships.get(i).getOccupiedSquares().get(j).setColumn((char)(ships.get(i).getOccupiedSquares().get(j).getColumn()-1)); //move square east by 1
-					}
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
