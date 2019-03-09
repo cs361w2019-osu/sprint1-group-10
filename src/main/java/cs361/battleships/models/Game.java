@@ -75,7 +75,8 @@ public class Game {
 
     public Board moveShips(Board movedBoard, char dir){
         Ship offsetShip;
-        Result tempAttack;
+        Result tempAttack = new Result();
+        int tempsize;
         boolean shipMoved;
         if(dir == 'n'){
             System.out.print("North called\n");
@@ -86,19 +87,30 @@ public class Game {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
                     System.out.print("Could not move north.\n");
                 }
-                else {
-                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
-                        tempAttack = playersBoard.getAtacks().get(j);
-                        tempAttack.getLocation().setRow(tempAttack.getLocation().getRow()-1);
-                        playersBoard.getAtacks().remove(j);
-                        movedBoard.setAttacks(playersBoard.getAtacks());
-                        movedBoard.setNumSonar(playersBoard.getNumSonar());
-                        movedBoard.setCapNumD(playersBoard.getCapNumD());
-                        movedBoard.setCapNumB(playersBoard.getCapNumB());
-                        playersBoard.addToAtacks(tempAttack);
-                    }
+            }
+            movedBoard.setNumSonar(playersBoard.getNumSonar());
+            movedBoard.setCapNumD(playersBoard.getCapNumD());
+            movedBoard.setCapNumB(playersBoard.getCapNumB());
+            for (int j = 0; j < playersBoard.getAtacks().size(); j++){
+                tempAttack = playersBoard.getAtacks().get(j);
+                if(tempAttack.getResult() == HIT || tempAttack.getResult() == CAPHIT){
+                    playersBoard.getAtacks().remove(playersBoard.getAtacks().get(j));
+                    //tempAttack.getLocation().setRow(playersBoard.getAtacks().get(j).getLocation().getRow()-1);
+                    //playersBoard.addToAtacks(tempAttack);
+                    //playersBoard.getAtacks().remove(j);
                 }
             }
+            movedBoard.setAttacks(playersBoard.getAtacks());
+            //for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+            //tempAttack = new Result(playersBoard.getAtacks().get(j).getLocation());
+            //    tempAttack = playersBoard.getAtacks().get(j);
+            //    tempAttack.setResult(playersBoard.getAtacks().get(j).getResult());
+            //    tempAttack.setShip(playersBoard.getAtacks().get(j).getShip());
+            //    tempAttack.getLocation().setRow(tempAttack.getLocation().getRow()-1);
+            //    playersBoard.getAtacks().remove(j);
+            //    playersBoard.addToAtacks(tempAttack);
+            //}
+            //movedBoard.setAttacks(playersBoard.getAtacks());
             return movedBoard;
         }
         else if(dir == 's'){
@@ -110,14 +122,27 @@ public class Game {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
                     System.out.print("Could not move south.\n");
                 }
-                else {
-                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
-                        tempAttack = playersBoard.getAtacks().get(j);
-                        tempAttack.getLocation().setRow(tempAttack.getLocation().getRow()+1);
-                        playersBoard.getAtacks().remove(j);
-                        playersBoard.addToAtacks(tempAttack);
+                movedBoard.setNumSonar(playersBoard.getNumSonar());
+                movedBoard.setCapNumD(playersBoard.getCapNumD());
+                movedBoard.setCapNumB(playersBoard.getCapNumB());
+                for (int j = 0; j < playersBoard.getAtacks().size(); j++){
+                    tempAttack = playersBoard.getAtacks().get(j);
+                    if(tempAttack.getResult() == HIT || tempAttack.getResult() == CAPHIT){
+                        playersBoard.getAtacks().remove(playersBoard.getAtacks().get(j));
+                        //tempAttack.getLocation().setRow(playersBoard.getAtacks().get(j).getLocation().getRow()+1);
+                        //playersBoard.addToAtacks(tempAttack);
+                        //playersBoard.getAtacks().remove(j);
                     }
                 }
+                movedBoard.setAttacks(playersBoard.getAtacks());
+                //else {
+                //    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                //        tempAttack = playersBoard.getAtacks().get(j);
+                //        tempAttack.getLocation().setRow(tempAttack.getLocation().getRow()+1);
+                //        playersBoard.getAtacks().remove(j);
+                 //       playersBoard.addToAtacks(tempAttack);
+                //    }
+                //}
             }
             return movedBoard;
         }
@@ -130,15 +155,28 @@ public class Game {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
                     System.out.print("Could not move east.\n");
                 }
-                else {
-                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
-                        tempAttack = playersBoard.getAtacks().get(j);
-                        tempAttack.getLocation().setColumn((char)(tempAttack.getLocation().getColumn()+1));
-                        playersBoard.getAtacks().remove(j);
-                        playersBoard.addToAtacks(tempAttack);
-                    }
+                //else {
+                //    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                //        tempAttack = playersBoard.getAtacks().get(j);
+                //        tempAttack.getLocation().setColumn((char)(tempAttack.getLocation().getColumn()+1));
+                //        playersBoard.getAtacks().remove(j);
+                //        playersBoard.addToAtacks(tempAttack);
+                //    }
+                //}
+            }
+            movedBoard.setNumSonar(playersBoard.getNumSonar());
+            movedBoard.setCapNumD(playersBoard.getCapNumD());
+            movedBoard.setCapNumB(playersBoard.getCapNumB());
+            for (int j = 0; j < playersBoard.getAtacks().size(); j++){
+                tempAttack = playersBoard.getAtacks().get(j);
+                if(tempAttack.getResult() == HIT || tempAttack.getResult() == CAPHIT){
+                    playersBoard.getAtacks().remove(playersBoard.getAtacks().get(j));
+                    //tempAttack.getLocation().setColumn((char)(playersBoard.getAtacks().get(j).getLocation().getColumn()+1));
+                    //playersBoard.addToAtacks(tempAttack);
+                    //playersBoard.getAtacks().remove(j);
                 }
             }
+            movedBoard.setAttacks(playersBoard.getAtacks());
             return movedBoard;
         }
         else if(dir == 'w'){
@@ -150,14 +188,29 @@ public class Game {
                     movedBoard.placeShip(offsetShip, offsetShip.getOccupiedSquares().get(0).getRow(), offsetShip.getOccupiedSquares().get(0).getColumn(), offsetShip.getVertical());
                     System.out.print("Could not move west.\n");
                 }
-                else {
-                    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
-                        tempAttack = playersBoard.getAtacks().get(j);
-                        tempAttack.getLocation().setColumn((char)(tempAttack.getLocation().getColumn()-1));
-                        playersBoard.getAtacks().remove(j);
-                        playersBoard.addToAtacks(tempAttack);
+                //else {
+                //    for(int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                //        tempAttack = playersBoard.getAtacks().get(j);
+                //        tempAttack.getLocation().setColumn((char)(tempAttack.getLocation().getColumn()-1));
+                //        playersBoard.getAtacks().remove(j);
+                //        playersBoard.addToAtacks(tempAttack);
+                //    }
+                //}
+                movedBoard.setNumSonar(playersBoard.getNumSonar());
+                movedBoard.setCapNumD(playersBoard.getCapNumD());
+                movedBoard.setCapNumB(playersBoard.getCapNumB());
+                for (int j = 0; j < playersBoard.getAtacks().size(); j++) {
+                    tempAttack = playersBoard.getAtacks().get(j);
+                    if (tempAttack.getResult() == HIT || tempAttack.getResult() == CAPHIT) {
+                        playersBoard.getAtacks().remove(playersBoard.getAtacks().get(j));
                     }
+                    //tempAttack.getLocation().setColumn((char)(playersBoard.getAtacks().get(j).getLocation().getColumn()-1));
+                    //playersBoard.addToAtacks(tempAttack);
+                    //playersBoard.getAtacks().remove(j);
+                    //    }
+                    //}
                 }
+                movedBoard.setAttacks(playersBoard.getAtacks());
             }
             return movedBoard;
         }
