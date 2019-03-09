@@ -133,7 +133,6 @@ public class Board {
 				var hitShip = shipsAtLocation.get(i);
 				if (hitShip.isUnderwater()) {
 					if (spaceLaser.getUpgrade() == true) {
-						System.out.print("What");
 						var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 						if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("SUB")) {
 							if (capNumS == 1) {
@@ -154,6 +153,10 @@ public class Board {
 								attackResult.setResult(AtackStatus.CAPHIT);
 								hitShip.getCCM().nohit();
 							}
+						}
+						else {
+							attackResult.setResult(AtackStatus.HIT);
+							return attackResult;
 						}
 						return attackResult;
 					} else {
