@@ -45,8 +45,9 @@ public class Board {
 			placedShip.makeVertical();
 		}
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			System.out.print("s.overlaps failed\n");
-			return false;
+            System.out.print("s.overlaps failed\n");
+            return false;
+        }
 		for(int i=0;i<ships.size();i++){// Rewritten to check underwater status.
 			if(ships.get(i).overlaps(placedShip)){// If there is an overlap
 				if(ships.get(i).isUnderwater() == placedShip.isUnderwater()) {// If they are both under/above water error out
