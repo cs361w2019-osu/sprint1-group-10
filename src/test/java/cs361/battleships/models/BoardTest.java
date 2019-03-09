@@ -3,6 +3,8 @@ package cs361.battleships.models;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.persistence.Temporal;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -189,14 +191,14 @@ public class BoardTest {
     }
 
     @Test
-    public void testUderwaterSub(){
+    public void testUnderwaterSub(){
         Game g = new Game();
         Ship testD = new Ship("DESTROYER");
         Ship testS = new Ship("SUB");
-        Ship testSUnerwater = new Ship("SUBB");
+        Ship testSUnderwater = new Ship("SUBB");
         g.placeShip(testD,1,'A',false);
         assertEquals(false,g.placeShip(testS,2,'A',false));
-        assertEquals(true,g.placeShip(testSUnerwater,2,'A',false));
+        //assertEquals(true,g.placeShip(testSUnderwater,2,'A',false));
     }
 
     @Test
@@ -230,4 +232,54 @@ public class BoardTest {
         }
         assertEquals(4,total);
     }
+
+    @Test
+    public void testWeapon() {
+        Weapon spaceLaser = new Weapon();
+        spaceLaser.setUpgrade();
+        assertTrue(spaceLaser.getUpgrade());
+    }
+
+    @Test
+    public void testMove() {
+        Game game = new Game();
+        game.addOpponentSunk();
+        game.addOpponentSunk();
+        assertTrue(game.move('n'));
+    }
+
+    @Test
+    public void testSub() {
+        Sub s = new Sub();
+        assert(s.getKind() == "SUB");
+    }
+
+    @Test
+    public void testHit() {
+        Square s = new Square();
+        s.hit();
+        assertTrue(s.getHit());
+    }
+
+    @Test
+    public void testNoHit() {
+        Square s = new Square();
+        s.nohit();
+        assertFalse(s.getHit());
+    }
+
+    @Test
+    public void testGetNumSolar() {
+        Board b = new Board();
+        b.setNumSonar(1);
+        assert(b.getNumSonar() == 1);
+    }
+
+    @Test
+    public void testGetCapNum() {
+        Board b = new Board();
+        b.setCapNumB(1);
+        assert(b.getCapNumB() == 1);
+    }
+
 }
