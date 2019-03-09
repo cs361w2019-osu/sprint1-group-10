@@ -26,6 +26,16 @@ public class Square {
 		return row;
 	}
 
+	public boolean getHit() { return hit; }
+
+	public void setRow(int newRow){
+		row = newRow;
+	}
+
+	public void setColumn(char newCol){
+		column = newCol;
+	}
+
 
 	@Override
 	public boolean equals(Object other) {

@@ -16,6 +16,7 @@ public class Ship {
 	@JsonProperty private Boolean underwater;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	@JsonProperty private boolean vertical = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -86,6 +87,13 @@ public class Ship {
 		}
 	}
 
+	public boolean getVertical(){
+		return vertical;
+	}
+
+	public void makeVertical(){
+		vertical = true;
+	}
 	public boolean overlaps(Ship other) {
 		Set<Square> thisSquares = Set.copyOf(getOccupiedSquares());
 		Set<Square> otherSquares = Set.copyOf(other.getOccupiedSquares());

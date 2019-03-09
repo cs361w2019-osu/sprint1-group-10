@@ -33,6 +33,7 @@ public class Board {
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
+			System.out.print("ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind())) failed\n");
 			return false;
 		}
 		final var placedShip = new Ship(ship.getKind());
@@ -40,6 +41,13 @@ public class Board {
 			placedShip.goUnderwater();
 		}
 		placedShip.place(y, x, isVertical);
+		if (isVertical){
+			placedShip.makeVertical();
+		}
+		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
+            System.out.print("s.overlaps failed\n");
+            return false;
+        }
 		for(int i=0;i<ships.size();i++){// Rewritten to check underwater status.
 			if(ships.get(i).overlaps(placedShip)){// If there is an overlap
 				if(ships.get(i).isUnderwater() == placedShip.isUnderwater()) {// If they are both under/above water error out
@@ -48,9 +56,11 @@ public class Board {
 			}
 		}
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
+			System.out.print("isOutofBounds failed\n");
 			return false;
 		}
 		ships.add(placedShip);
+
 		return true;
 	}
 
@@ -248,5 +258,33 @@ public class Board {
 
 	void addToAtacks(Result tmp){//Test helper function
 		attacks.add(tmp);
+	}
+
+	public void setAttacks(List<Result> newAttacks){
+		attacks = newAttacks;
+	}
+
+	public int getNumSonar(){
+		return numSonar;
+	}
+
+	public void setNumSonar(int newNum){
+		numSonar = newNum;
+	}
+
+	public int getCapNumD(){
+		return capNumD;
+	}
+
+	public void setCapNumD(int newNumD){
+		capNumD = newNumD;
+	}
+
+	public int getCapNumB(){
+		return capNumB;
+	}
+
+	public void setCapNumB(int newNumB){
+		capNumB = newNumB;
 	}
 }

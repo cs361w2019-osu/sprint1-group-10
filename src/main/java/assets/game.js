@@ -7,6 +7,7 @@ var logSize = 0;
 var hits = 0;
 var miss = 0;
 var useSonar = false;
+var anySunk = false;
 
 function makeGrid(table, isPlayer) {
     for (i=0; i<10; i++) {
@@ -48,6 +49,10 @@ function markHits(board, elementId, surrenderText, isPlayer) {
             if (isPlayer){// Only log if it's a players move
                 logEvent("Sunk");// Log event in console
                 hits++;
+                if(!anySunk){
+                    logEvent("Space laser active");
+                    anySunk = true;
+                }
             }
             className = "hit";
         }
