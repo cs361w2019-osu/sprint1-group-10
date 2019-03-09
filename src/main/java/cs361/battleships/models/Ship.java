@@ -13,8 +13,10 @@ import java.util.Set;
 public class Ship {
 
 	@JsonProperty private String kind;
+	@JsonProperty private Boolean underwater;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	@JsonProperty private boolean vertical = false;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -25,31 +27,73 @@ public class Ship {
 		this.kind = kind;
 		switch(kind) {
 			case "MINESWEEPER":
+				this.underwater = false;
 				size = 2;
 				break;
 			case "DESTROYER":
+				this.underwater = false;
 				size = 3;
 				break;
 			case "BATTLESHIP":
+				this.underwater = false;
 				size = 4;
+				break;
+			case "SUB":
+				this.underwater = false;
+				size = 5;
+				break;
+			case "SUBB":
+				this.underwater = true;
+				this.kind = "SUB";
+				size = 5;
 				break;
 		}
 	}
+
+	public boolean isUnderwater(){
+		return underwater;
+	}
+	public void goUnderwater() { this.underwater = true;}
 
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
 	}
 
 	public void place(char col, int row, boolean isVertical) {
-		for (int i=0; i<size; i++) {
-			if (isVertical) {
-				occupiedSquares.add(new Square(row+i, col));
-			} else {
-				occupiedSquares.add(new Square(row, (char) (col + i)));
-			}
+		switch (this.kind) {
+			case "SUB":
+				for (int i = 0; i < size - 1; i++) {
+					if (isVertical) {
+						occupiedSquares.add(new Square(row + i, col));
+					} else {
+						occupiedSquares.add(new Square(row, (char) (col + i)));
+					}
+				}
+				if (isVertical) {
+					occupiedSquares.add(new Square(row + 1, (char) (col + 1)));
+				} else {
+					occupiedSquares.add(new Square(row - 1, (char) (col + 1)));
+				}
+				break;
+			default:
+				for (int i = 0; i < size; i++) {
+					if (isVertical) {
+						occupiedSquares.add(new Square(row + i, col));
+					} else {
+						occupiedSquares.add(new Square(row, (char) (col + i)));
+					}
+				}
+				break;
 		}
 	}
 
+	public boolean getVertical(){
+		return vertical;
+	}
+
+	public void makeVertical(){
+		vertical = true;
+	}
 	public boolean overlaps(Ship other) {
 		Set<Square> thisSquares = Set.copyOf(getOccupiedSquares());
 		Set<Square> otherSquares = Set.copyOf(other.getOccupiedSquares());

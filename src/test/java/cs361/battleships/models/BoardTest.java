@@ -3,6 +3,8 @@ package cs361.battleships.models;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.persistence.Temporal;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,13 +41,10 @@ public class BoardTest {
 
     @Test
     public void testAttackShip() {
-        //Ship minesweeper = new Ship("MINESWEEPER");
-        //board.placeShip(minesweeper, 1, 'A', false);
-        //minesweeper = board.getShips().get(0);
-        //Result result = board.attack(1, 'B',false);
-        //assertEquals(AtackStatus.HIT, result.getResult());
-        //assertEquals(minesweeper, result.getShip());
-        assertEquals(true,true);
+        Ship minesweeper = new Ship("DESTROYER");
+        board.placeShip(minesweeper, 1, 'A', false);
+        Result result = board.attack(1, 'A',false);
+        assertEquals(AtackStatus.HIT, result.getResult());
     }
 
     @Test
@@ -67,10 +66,10 @@ public class BoardTest {
 
     @Test
     public void testSurrender() {
-        //board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false);
-        //board.attack(1, 'A',false);
-        //var result = board.attack(1, 'B',false);
-        assertEquals(AtackStatus.SURRENDER, AtackStatus.SURRENDER);
+        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
+        board.attack(1,'B',false);
+        var result = board.attack(1, 'A',false);
+        assertEquals(AtackStatus.SURRENDER, result.getResult());
     }
 
     @Test
@@ -81,10 +80,11 @@ public class BoardTest {
     }
 
     @Test
-    public void testCantPlaceMoreThan3Ships() {
+    public void testCantPlaceMoreThan4Ships() {
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
         assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'D', true));
         assertTrue(board.placeShip(new Ship("DESTROYER"), 6, 'A', false));
+        assertTrue(board.placeShip(new Ship("SUB"), 2, 'B', false));
         assertFalse(board.placeShip(new Ship(""), 8, 'A', false));
 
     }
@@ -189,4 +189,97 @@ public class BoardTest {
         g.placeShip(test,1,'A',false);
         assertEquals(true,g.attack(1,'A',false));
     }
+
+    @Test
+    public void testUnderwaterSub(){
+        Game g = new Game();
+        Ship testD = new Ship("DESTROYER");
+        Ship testS = new Ship("SUB");
+        Ship testSUnderwater = new Ship("SUBB");
+        g.placeShip(testD,1,'A',false);
+        assertEquals(false,g.placeShip(testS,2,'A',false));
+        //assertEquals(true,g.placeShip(testSUnderwater,2,'A',false));
+    }
+
+    @Test
+    public void testCap(){
+        Board b = new Board();
+        b.placeShip(new Ship("SUB"),2,'A',false);
+        b.placeShip(new Ship("DESTROYER"),3,'A',false);
+        b.placeShip(new Ship("MINESWEEPER"),4,'A',false);
+        b.placeShip(new Ship("BATTLESHIP"),5,'A',false);
+        b.attack(2,'A',false);
+        b.attack(3,'B',false);
+        b.attack(4,'A',false);
+        b.attack(5,'C',false);
+        // Check CC
+        var total = 0;
+        for(int i=0;i < b.getAtacks().size();i++){
+            if(b.getAtacks().get(i).getResult().equals(AtackStatus.CAPHIT)){
+                total++;
+            }
+        }
+        assertEquals(3,total);
+        b.attack(2,'A',false);
+        b.attack(3,'B',false);
+        b.attack(4,'A',false);
+        b.attack(5,'C',false);
+        total = 0;
+        for(int i=0;i < b.getAtacks().size();i++){
+            if(b.getAtacks().get(i).getResult().equals(AtackStatus.SUNK) || b.getAtacks().get(i).getResult().equals(AtackStatus.SURRENDER)){
+                total++;
+            }
+        }
+        assertEquals(4,total);
+    }
+
+    @Test
+    public void testWeapon() {
+        Weapon spaceLaser = new Weapon();
+        spaceLaser.setUpgrade();
+        assertTrue(spaceLaser.getUpgrade());
+    }
+
+    @Test
+    public void testMove() {
+        Game game = new Game();
+        game.addOpponentSunk();
+        game.addOpponentSunk();
+        assertTrue(game.move('n'));
+    }
+
+    @Test
+    public void testSub() {
+        Sub s = new Sub();
+        assert(s.getKind() == "SUB");
+    }
+
+    @Test
+    public void testHit() {
+        Square s = new Square();
+        s.hit();
+        assertTrue(s.getHit());
+    }
+
+    @Test
+    public void testNoHit() {
+        Square s = new Square();
+        s.nohit();
+        assertFalse(s.getHit());
+    }
+
+    @Test
+    public void testGetNumSolar() {
+        Board b = new Board();
+        b.setNumSonar(1);
+        assert(b.getNumSonar() == 1);
+    }
+
+    @Test
+    public void testGetCapNum() {
+        Board b = new Board();
+        b.setCapNumB(1);
+        assert(b.getCapNumB() == 1);
+    }
+
 }

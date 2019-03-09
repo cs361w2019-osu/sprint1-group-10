@@ -10,9 +10,11 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	@JsonProperty private Weapon spaceLaser = new Weapon();
 	@JsonProperty private int numSonar;
 	@JsonProperty private int capNumD = 0;
 	@JsonProperty private int capNumB = 0;
+	@JsonProperty private int capNumS = 0;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -27,21 +29,38 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		if (ships.size() >= 3) {
+		if (ships.size() >= 4) {
 			return false;
 		}
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
+			System.out.print("ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind())) failed\n");
 			return false;
 		}
 		final var placedShip = new Ship(ship.getKind());
+		if(ship.isUnderwater()){
+			placedShip.goUnderwater();
+		}
 		placedShip.place(y, x, isVertical);
+		if (isVertical){
+			placedShip.makeVertical();
+		}
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			return false;
+            System.out.print("s.overlaps failed\n");
+            return false;
+        }
+		for(int i=0;i<ships.size();i++){// Rewritten to check underwater status.
+			if(ships.get(i).overlaps(placedShip)){// If there is an overlap
+				if(ships.get(i).isUnderwater() == placedShip.isUnderwater()) {// If they are both under/above water error out
+					return false;
+				}//Otherwise we are good
+			}
 		}
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
+			System.out.print("isOutofBounds failed\n");
 			return false;
 		}
 		ships.add(placedShip);
+
 		return true;
 	}
 
@@ -54,7 +73,7 @@ public class Board {
 		return attackResult;
 	}
 
-	public void sonarAtk(int x,char y){//FIXME: Write test functionss
+	public void sonarAtk(int x,char y){
 		Square tmpS = new Square(x,y);
 		Result tmpR = attack(tmpS,true);
 		if(tmpR.getResult() == AtackStatus.HIT){// Center of the sonar
@@ -71,7 +90,7 @@ public class Board {
 		//If it's not hit or miss then it's invalid and out of bounds in witch case we don't care
 	}
 
-	public void sonar(int x, char y){//FIXME: Write test functions
+	public void sonar(int x, char y){
 		if(numSonar < 2){
 			for(int i = 0; i < attacks.size(); i++){// Search for the first sunk ship
 				if(attacks.get(i).getResult() == AtackStatus.SUNK){
@@ -120,60 +139,113 @@ public class Board {
 			return attackResult;
 		}
 		if(!useSonar){
-			var hitShip = shipsAtLocation.get(0);
-			var attackResult = hitShip.attack(s.getRow(), s.getColumn());
-			if(attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("MINESWEEPER")){
-				Square tmpS = hitShip.getOccupiedSquares().get(1);
-				attacks.add(attackResult);
-				attackResult = hitShip.attack(tmpS.getRow(),tmpS.getColumn());
-				attackResult.setResult(AtackStatus.CAPHIT);
+			for(int i = 0; i < shipsAtLocation.size(); i++) {
+				var hitShip = shipsAtLocation.get(i);
+				if (hitShip.isUnderwater()) {
+					if (spaceLaser.getUpgrade() == true) {
+						var attackResult = hitShip.attack(s.getRow(), s.getColumn());
+						if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("SUB")) {
+							if (capNumS == 1) {
+								Square tmpS = hitShip.getOccupiedSquares().get(1);
+								attacks.add(attackResult);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+								attacks.add(attackResult);
+								tmpS = hitShip.getOccupiedSquares().get(2);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+								attacks.add(attackResult);
+								tmpS = hitShip.getOccupiedSquares().get(3);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+								attacks.add(attackResult);
+								tmpS = hitShip.getOccupiedSquares().get(4);
+								attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							} else if (capNumS == 0) {
+								capNumS++;
+								attackResult.setResult(AtackStatus.CAPHIT);
+								hitShip.getCCM().nohit();
+							}
+						}
+						else {
+							attackResult.setResult(AtackStatus.HIT);
+							return attackResult;
+						}
+						return attackResult;
+					} else {
+						var attackResult = new Result(s);
+						return attackResult;
+					}
+				} else {
+					var attackResult = hitShip.attack(s.getRow(), s.getColumn());
+					if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("MINESWEEPER")) {
+						Square tmpS = hitShip.getOccupiedSquares().get(1);
+						attacks.add(attackResult);
+						attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						//attackResult.setResult(AtackStatus.CAPHIT); This changes the final hit form SUNK to cap hit witch won't trigger the surrender
+					} else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCD().getRow() == s.getRow() && hitShip.getCCD().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")) {
+						if (capNumD == 1) {
+							Square tmpS = hitShip.getOccupiedSquares().get(0);
+							attacks.add(attackResult);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(2);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						} else if (capNumD == 0) {
+							capNumD++;
+							attackResult.setResult(AtackStatus.CAPHIT);
+							hitShip.getCCD().nohit();
+						}
+					} else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCB().getRow() == s.getRow() && hitShip.getCCB().getColumn() == s.getColumn() && hitShip.getKind().equals("BATTLESHIP")) {
+						if (capNumB == 1) {
+							Square tmpS = hitShip.getOccupiedSquares().get(0);
+							attacks.add(attackResult);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(1);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(3);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						} else if (capNumB == 0) {
+							capNumB++;
+							attackResult.setResult(AtackStatus.CAPHIT);
+							hitShip.getCCB().nohit();
+						}
+					} else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCM().getRow() == s.getRow() && hitShip.getCCM().getColumn() == s.getColumn() && hitShip.getKind().equals("SUB")) {
+						if (capNumS == 1) {
+							Square tmpS = hitShip.getOccupiedSquares().get(1);
+							attacks.add(attackResult);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(2);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(3);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+							attacks.add(attackResult);
+							tmpS = hitShip.getOccupiedSquares().get(4);
+							attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
+						} else if (capNumS == 0) {
+							capNumS++;
+							attackResult.setResult(AtackStatus.CAPHIT);
+							hitShip.getCCM().nohit();
+						}
+					}
+					if (attackResult.getResult() == AtackStatus.SUNK) {
+						spaceLaser.setUpgrade();
+						if (ships.stream().allMatch(ship -> ship.isSunk())) {
+							attackResult.setResult(AtackStatus.SURRENDER);
+						}
+					}
+					return attackResult;
+				}
 			}
-			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCD().getRow() == s.getRow() && hitShip.getCCD().getColumn() == s.getColumn() && hitShip.getKind().equals("DESTROYER")){
-				if (capNumD == 1) {
-					Square tmpS = hitShip.getOccupiedSquares().get(0);
-					attacks.add(attackResult);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(2);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-				}
-				else if (capNumD == 0){
-					capNumD++;
-					attackResult.setResult(AtackStatus.CAPHIT);
-					hitShip.getCCD().nohit();
-				}
-			}
-			else if (attackResult.getResult() == AtackStatus.HIT && hitShip.getCCB().getRow() == s.getRow() && hitShip.getCCB().getColumn() == s.getColumn() && hitShip.getKind().equals("BATTLESHIP")){
-				if (capNumB == 1) {
-					Square tmpS = hitShip.getOccupiedSquares().get(0);
-					attacks.add(attackResult);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(1);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-					attacks.add(attackResult);
-					tmpS = hitShip.getOccupiedSquares().get(3);
-					attackResult = hitShip.attack(tmpS.getRow(), tmpS.getColumn());
-				}
-				else if (capNumB == 0){
-					capNumB++;
-					attackResult.setResult(AtackStatus.CAPHIT);
-					hitShip.getCCB().nohit();
-				}
-			}
-			if (attackResult.getResult() == AtackStatus.SUNK) {
-				if (ships.stream().allMatch(ship -> ship.isSunk())) {
-					attackResult.setResult(AtackStatus.SURRENDER);
-				}
-			}
-			return attackResult;
 		}
 		else {
 			var attackResult = new Result(s);
 			attackResult.setResult(AtackStatus.HIT);
 			return attackResult;
 		}
-
+		var attackResult = new Result(s);
+		return attackResult;
 	}
 
 	List<Ship> getShips() {
@@ -186,5 +258,33 @@ public class Board {
 
 	void addToAtacks(Result tmp){//Test helper function
 		attacks.add(tmp);
+	}
+
+	public void setAttacks(List<Result> newAttacks){
+		attacks = newAttacks;
+	}
+
+	public int getNumSonar(){
+		return numSonar;
+	}
+
+	public void setNumSonar(int newNum){
+		numSonar = newNum;
+	}
+
+	public int getCapNumD(){
+		return capNumD;
+	}
+
+	public void setCapNumD(int newNumD){
+		capNumD = newNumD;
+	}
+
+	public int getCapNumB(){
+		return capNumB;
+	}
+
+	public void setCapNumB(int newNumB){
+		capNumB = newNumB;
 	}
 }
